@@ -59,7 +59,6 @@ export default function Onboarding({ onDone }) {
       </div>
       <p className="kz-eyebrow mb-2">{TR.tagline}</p>
       <h1 className="text-3xl font-light mb-2" style={{ letterSpacing: "-0.01em" }}>{TR.onbTitle}</h1>
-      <p className="kz-dim text-sm mb-2">{TR.onbSub}</p>
       <p className="text-xs mb-6" style={{ color: "#9d90bf", lineHeight: 1.7, maxWidth: 400 }}>
         {TR.onbDesc}
       </p>
