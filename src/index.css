@@ -1,0 +1,132 @@
+@import "tailwindcss";
+
+.kz-root {
+  font-family: "Montserrat", sans-serif;
+  background:
+    radial-gradient(1200px 800px at 80% -10%, #16234d 0%, transparent 60%),
+    radial-gradient(1000px 700px at -10% 110%, #241040 0%, transparent 55%),
+    #1a0b2e;
+  color: #ece6f5;
+  min-height: 100vh;
+}
+.kz-glass {
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 20px;
+}
+.kz-gold { color: #d4af37; }
+.kz-dim { color: #bcb1d8; }
+.kz-eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #b3a7d1;
+}
+.kz-bar {
+  height: 7px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+.kz-bar > div {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.kz-chip {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 99px;
+  padding: 7px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: transparent;
+  color: #ece6f5;
+}
+.kz-chip:hover { border-color: #d4af37; }
+.kz-chip.on {
+  background: #d4af37;
+  color: #1a0b2e;
+  border-color: #d4af37;
+  font-weight: 600;
+}
+.kz-tab {
+  padding: 8px 16px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  color: #bcb1d8;
+  transition: all 0.2s;
+  background: transparent;
+}
+.kz-tab.on {
+  background: rgba(212, 175, 55, 0.12);
+  color: #d4af37;
+  border-color: rgba(212, 175, 55, 0.35);
+}
+.kz-tab.locked { opacity: 0.45; cursor: not-allowed; }
+.kz-input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 12px;
+  padding: 11px 14px;
+  color: #ece6f5;
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
+  width: 100%;
+  outline: none;
+  transition: border 0.2s;
+  color-scheme: dark;
+}
+.kz-input:focus { border-color: #d4af37; }
+.kz-btn {
+  background: linear-gradient(135deg, #d4af37, #b8912a);
+  color: #1a0b2e;
+  font-weight: 700;
+  border: none;
+  border-radius: 14px;
+  padding: 13px 22px;
+  font-size: 14px;
+  cursor: pointer;
+  font-family: "Montserrat", sans-serif;
+  letter-spacing: 0.02em;
+  transition: transform 0.15s, box-shadow 0.2s;
+}
+.kz-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 30px rgba(212, 175, 55, 0.25);
+}
+.kz-orb {
+  border-radius: 50%;
+  filter: blur(0.5px);
+  animation: kzBreathe 5s ease-in-out infinite;
+}
+@keyframes kzBreathe {
+  0%, 100% { transform: scale(1); opacity: 0.92; }
+  50% { transform: scale(1.06); opacity: 1; }
+}
+@keyframes kzTwinkle {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 0.9; }
+}
+.kz-star {
+  position: absolute;
+  background: #fff;
+  border-radius: 50%;
+  animation: kzTwinkle 4s ease-in-out infinite;
+}
+@keyframes kzFadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+.kz-fade { animation: kzFadeUp 0.6s ease both; }
+@media (prefers-reduced-motion: reduce) {
+  .kz-orb, .kz-star, .kz-fade { animation: none !important; }
+  .kz-bar > div { transition: none !important; }
+}
