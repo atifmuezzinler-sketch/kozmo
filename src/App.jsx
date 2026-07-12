@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { Compass, Users } from "lucide-react";
 import { TR } from "./i18n/tr";
-import { StarField } from "./components/Common";
+import { StarField, FontToggle } from "./components/Common";
 import Onboarding from "./components/Onboarding";
 import { WeatherBanner, SkyStrip } from "./components/Sky";
 import { PusulaView, UyumView } from "./components/Views";
@@ -45,7 +45,8 @@ export default function App() {
               <Compass size={18} className="kz-gold" />
               <span className="font-extrabold tracking-widest">KOZMO</span>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
+              <FontToggle />
               <span className="text-sm kz-dim">
                 {profile.sign.sembol} {profile.sign.ad}
                 {profile.rising && <span> · Yük. {profile.rising.ad}</span>}

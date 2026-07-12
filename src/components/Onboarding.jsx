@@ -2,7 +2,7 @@ import React, { useState, useMemo } from "react";
 import { Compass, Sparkles, Clock } from "lucide-react";
 import { TR } from "../i18n/tr";
 import { CITIES, findCity, natalSunLon, signOf, ascendant, norm, EL_AD } from "../lib/astro";
-import { DateField } from "./Common";
+import { DateField, FontToggle } from "./Common";
 import { WeatherBanner, SkyStrip } from "./Sky";
 
 export default function Onboarding({ onDone }) {
@@ -53,9 +53,12 @@ export default function Onboarding({ onDone }) {
 
   return (
     <div className="max-w-md mx-auto px-5 py-14 relative kz-fade" style={{ zIndex: 1 }}>
-      <div className="flex items-center gap-2 mb-10">
-        <Compass size={20} className="kz-gold" />
-        <span className="font-extrabold tracking-widest text-lg">KOZMO</span>
+      <div className="flex items-center justify-between mb-10">
+        <div className="flex items-center gap-2">
+          <Compass size={20} className="kz-gold" />
+          <span className="font-extrabold tracking-widest text-lg">KOZMO</span>
+        </div>
+        <FontToggle />
       </div>
       <p className="kz-eyebrow mb-2">{TR.tagline}</p>
       <h1 className="text-3xl font-light mb-2" style={{ letterSpacing: "-0.01em" }}>{TR.onbTitle}</h1>

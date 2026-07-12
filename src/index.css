@@ -19,7 +19,7 @@
 .kz-gold { color: #d4af37; }
 .kz-dim { color: #bcb1d8; }
 .kz-eyebrow {
-  font-size: 12px;
+  font-size: 0.75rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   font-weight: 600;
@@ -40,7 +40,7 @@
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 99px;
   padding: 7px 14px;
-  font-size: 13px;
+  font-size: 0.82rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;
@@ -57,7 +57,7 @@
 .kz-tab {
   padding: 8px 16px;
   border-radius: 12px;
-  font-size: 13px;
+  font-size: 0.82rem;
   font-weight: 600;
   cursor: pointer;
   border: 1px solid transparent;
@@ -78,7 +78,7 @@
   padding: 11px 14px;
   color: #ece6f5;
   font-family: "Montserrat", sans-serif;
-  font-size: 14px;
+  font-size: 0.875rem;
   width: 100%;
   outline: none;
   transition: border 0.2s;
@@ -92,7 +92,7 @@
   border: none;
   border-radius: 14px;
   padding: 13px 22px;
-  font-size: 14px;
+  font-size: 0.875rem;
   cursor: pointer;
   font-family: "Montserrat", sans-serif;
   letter-spacing: 0.02em;

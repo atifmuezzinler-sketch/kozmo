@@ -65,9 +65,16 @@ export function mockEngine(profile, date) {
   const risky = KATEGORILER.reduce((a, b) =>
     skorlar[a].risk >= skorlar[b].risk ? a : b);
 
-  const renk = sec(r, AURA_COLORS);
-  const motto = sec(r, MOTTOS);
-  const gununCumlesi = sec(r, GUNUN_CUMLESI[natal.el]);
+  /* Anti-tekrar rotasyonu: her içerik, havuz uzunluğuyla aralarında asal
+     bir adımla döner — kullanıcı tüm havuzu görmeden hiçbir öğe tekrarlanmaz,
+     art arda tekrar matematiksel olarak imkânsızdır. */
+  const gunNo = Math.floor(date.getTime() / 86400000);
+  const rot = (salt, len, step) =>
+    (((hashStr(profile.birthDate + salt) + gunNo * step) % len) + len) % len;
+  const renk = AURA_COLORS[rot("aura", AURA_COLORS.length, 7)];
+  const motto = MOTTOS[rot("motto", MOTTOS.length, 7)];
+  const havuz = GUNUN_CUMLESI[natal.el];
+  const gununCumlesi = havuz[rot("cumle", havuz.length, 3)];
 
   const yukselen = profile.rising
     ? ` Yükselenin ${profile.rising.ad}; dış dünyaya açılan kapın bugün ${EL_AD[profile.rising.el].toLowerCase()} elementinden geçiyor.`

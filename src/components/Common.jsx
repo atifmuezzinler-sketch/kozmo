@@ -2,6 +2,24 @@ import React, { useState, useMemo, useEffect } from "react";
 import { TR, AYLAR } from "../i18n/tr";
 import { hashStr } from "../lib/engine";
 
+/* Yazı boyutu ayarı — kök yazı ölçüsünü büyütür, tercih cihazda saklanır */
+export function FontToggle() {
+  const [buyuk, setBuyuk] = useState(() => {
+    try { return localStorage.getItem("kozmo_yazi") === "buyuk"; } catch { return false; }
+  });
+  useEffect(() => {
+    document.documentElement.style.fontSize = buyuk ? "18px" : "16px";
+    try { localStorage.setItem("kozmo_yazi", buyuk ? "buyuk" : "normal"); } catch { /* özel mod */ }
+  }, [buyuk]);
+  return (
+    <button className="kz-chip" onClick={() => setBuyuk(!buyuk)}
+      title="Yazı boyutu"
+      style={{ padding: "4px 10px", fontWeight: 700, fontSize: "0.7rem" }}>
+      {buyuk ? "A−" : "A+"}
+    </button>
+  );
+}
+
 /* Dokununca tek satırlık sade açıklama açan terim */
 export function Terim({ metin, aciklama }) {
   const [ac, setAc] = useState(false);

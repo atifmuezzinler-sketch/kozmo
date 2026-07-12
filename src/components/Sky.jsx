@@ -49,13 +49,13 @@ export function SkyStrip({ today }) {
             return (
               <div key={i} style={{ width: "13%", textAlign: "center", position: "relative", height: 62 }}>
                 <p style={{
-                  fontSize: 11, margin: 0,
+                  fontSize: "0.7rem", margin: 0,
                   color: has ? "#d4af37" : i === 0 ? "#ece6f5" : "#8d80ab",
                   fontWeight: has || i === 0 ? 600 : 400,
                 }}>{GUN_KISA[d.getDay()]} {d.getDate()}</p>
                 {has && (
                   <span style={{
-                    fontSize: 13, color: "#d4af37",
+                    fontSize: "0.82rem", color: "#d4af37",
                     position: "absolute", top: 18, left: 0, right: 0,
                   }}>{ev[0].ikon}</span>
                 )}
@@ -75,7 +75,7 @@ export function SkyStrip({ today }) {
       {olaylar.length > 0 ? (
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: 14 }}>
           {olaylar.map((e, idx) => (
-            <p key={idx} style={{ fontSize: 13, margin: idx ? "8px 0 0" : 0, lineHeight: 1.6 }}>
+            <p key={idx} style={{ fontSize: "0.82rem", margin: idx ? "8px 0 0" : 0, lineHeight: 1.6 }}>
               <span style={{
                 display: "inline-block", width: 8, height: 8, borderRadius: "50%",
                 background: "#d4af37", marginRight: 8,

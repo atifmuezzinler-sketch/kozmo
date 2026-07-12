@@ -1,10 +1,11 @@
 import React, { useState, useMemo } from "react";
-import { Home, Briefcase, Heart, Coins, Moon, Lock, Users, ArrowRight } from "lucide-react";
-import { TR } from "../i18n/tr";
+import { Home, Briefcase, Heart, Coins, Moon, Lock, Users, ArrowRight, Share2 } from "lucide-react";
+import { TR, GUN_KISA } from "../i18n/tr";
 import { EL_AD, natalSunLon, signOf } from "../lib/astro";
 import { mockEngine, mockSynastry, skorNasil, KATEGORILER } from "../lib/engine";
 import { ScoreBar, DateField } from "./Common";
 import { AuraCard, CheckIn } from "./AuraCheckIn";
+import { uyumKartiUret } from "../lib/aura-card";
 
 const CAT_ICON = { aile: Home, is: Briefcase, ask: Heart, para: Coins };
 
@@ -13,19 +14,21 @@ export function PusulaView({ profile, today, firstReading }) {
   const [howOpen, setHowOpen] = useState(false);
   const daily = useMemo(() => mockEngine(profile, today), [profile, today]);
   const weekly = useMemo(() => {
-    const days = Array.from({ length: 7 }, (_, i) =>
-      mockEngine(profile, new Date(today.getTime() + i * 86400000)));
+    const days = Array.from({ length: 7 }, (_, i) => {
+      const d = new Date(today.getTime() + i * 86400000);
+      return { d, r: mockEngine(profile, d) };
+    });
     const agg = {};
     for (const k of KATEGORILER) {
       agg[k] = {
-        sans: Math.round(days.reduce((s, d) => s + d.skorlar[k].sans, 0) / 7),
-        risk: Math.round(days.reduce((s, d) => s + d.skorlar[k].risk, 0) / 7),
+        sans: Math.round(days.reduce((s, x) => s + x.r.skorlar[k].sans, 0) / 7),
+        risk: Math.round(days.reduce((s, x) => s + x.r.skorlar[k].risk, 0) / 7),
       };
     }
-    return agg;
+    return { agg, days };
   }, [profile, today]);
 
-  const skorlar = tab === "daily" ? daily.skorlar : weekly;
+  const skorlar = tab === "daily" ? daily.skorlar : weekly.agg;
 
   return (
     <div>
@@ -68,6 +71,30 @@ export function PusulaView({ profile, today, firstReading }) {
               </p>
               <ScoreBar label={TR.sans} value={skorlar[k].sans} gold />
               <ScoreBar label={TR.risk} value={skorlar[k].risk} />
+              {tab === "weekly" && (
+                <div className="mt-3">
+                  <p className="kz-dim mb-1" style={{ fontSize: "0.7rem" }}>{TR.sans} · gün gün</p>
+                  <div className="flex items-end justify-between" style={{ height: 42 }}>
+                    {weekly.days.map((g, i) => (
+                      <div key={i} style={{ width: "12%" }}>
+                        <div style={{
+                          height: 5 + g.r.skorlar[k].sans * 0.36,
+                          background: i === 0 ? "#d4af37" : "rgba(212,175,55,0.45)",
+                          borderRadius: 4, width: "70%", margin: "0 auto",
+                        }} />
+                      </div>
+                    ))}
+                  </div>
+                  <div className="flex justify-between mt-1">
+                    {weekly.days.map((g, i) => (
+                      <span key={i} className="kz-dim text-center"
+                        style={{ width: "12%", fontSize: "0.62rem" }}>
+                        {GUN_KISA[g.d.getDay()]}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           );
         })}
@@ -102,6 +129,7 @@ export function UyumView({ profile }) {
   const [bDate, setBDate] = useState("");
   const [rel, setRel] = useState("partner");
   const [res, setRes] = useState(null);
+  const [kart, setKart] = useState(""); // "" | busy | done | shared
   const RELS = [
     { k: "partner", ad: TR.relPartner }, { k: "arkadas", ad: TR.relFriend },
     { k: "aile", ad: TR.relFamily }, { k: "is", ad: TR.relWork },
@@ -149,7 +177,7 @@ export function UyumView({ profile }) {
       </div>
 
       {res && (
-        <div className="kz-glass p-6 kz-fade">
+        <div className="kz-glass p-6 kz-fade relative overflow-hidden">
           <div className="flex items-center justify-center gap-6 mb-6">
             <div className="text-center">
               <p className="text-3xl">{res.sA.sembol}</p>
@@ -171,6 +199,33 @@ export function UyumView({ profile }) {
           </div>
           <p className="kz-eyebrow mb-2">{TR.synAnalysis}</p>
           <p className="text-sm" style={{ lineHeight: 1.85 }}>{res.analiz}</p>
+          <button onClick={async () => {
+            if (kart === "busy") return;
+            setKart("busy");
+            try {
+              const relAd = RELS.find((x) => x.k === rel).ad;
+              const cumle = res.analiz.split(". ")[0] + ".";
+              const tarih = new Date().toLocaleDateString("tr-TR", {
+                day: "numeric", month: "long", year: "numeric",
+              });
+              const sonuc = await uyumKartiUret({
+                sA: res.sA, sB: res.sB, adB: bName.trim(),
+                genel: res.genel, relAd, cumle, tarihStr: tarih,
+              });
+              setKart(sonuc === "paylasildi" ? "shared" : sonuc === "indirildi" ? "done" : "");
+            } catch { setKart(""); }
+            setTimeout(() => setKart(""), 3000);
+          }}
+            className="kz-chip mt-5 w-full flex items-center justify-center gap-2"
+            style={{ opacity: kart === "busy" ? 0.6 : 1 }}>
+            <Share2 size={14} />
+            {kart === "busy" ? TR.auraBusy : TR.synShare}
+          </button>
+          {(kart === "done" || kart === "shared") && (
+            <div className="absolute inset-x-4 bottom-4 kz-glass px-4 py-3 text-center text-sm kz-fade">
+              {kart === "shared" ? TR.synShared : TR.synDone}
+            </div>
+          )}
         </div>
       )}
     </div>
