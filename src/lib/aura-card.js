@@ -151,7 +151,7 @@ export async function uyumKartiUret({ sA, sB, adB, genel, relAd, cumle, tarihStr
   x.fillStyle = "#b3a7d1";
   x.font = "500 32px Montserrat, sans-serif";
   x.fillText(sA.ad, W / 2 - 200, 720);
-  x.fillText(adB || sB.ad, W / 2 + 200, 720);
+  x.fillText(sB.ad, W / 2 + 200, 720); // mahremiyet: kartta isim değil, her zaman burç adı
 
   x.fillStyle = "#b3a7d1";
   x.font = "600 30px Montserrat, sans-serif";
