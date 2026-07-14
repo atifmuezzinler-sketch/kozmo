@@ -12,18 +12,23 @@ export function WeatherBanner({ today }) {
   const sSign = signOf(sunLon(today));
   const retro = isRetro("merkur", today);
   return (
-    <div className="kz-glass px-5 py-4 mb-5 flex flex-wrap items-center gap-x-5 gap-y-2 kz-fade">
-      <span className="kz-eyebrow flex items-center gap-2">
-        <Star size={12} className="kz-gold" /> {TR.weather}
-      </span>
-      <span className="text-sm">
-        {ph.ikon} <Terim metin={ph.ad} aciklama={GLOSS.faz[ph.ad]} />
-      </span>
-      <span className="text-sm kz-dim">{TR.moonIn} {mSign.ad} {mSign.sembol} burcunda</span>
-      <span className="text-sm kz-dim">☀ {sSign.ad} {TR.season}</span>
-      <span className="text-sm" style={{ color: retro ? "#e08aab" : "#7fd6b0" }}>
-        ☿ {retro ? TR.retroOn : TR.retroOff}
-      </span>
+    <div className="kz-glass px-5 py-4 mb-5 kz-fade">
+      <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+        <span className="kz-eyebrow flex items-center gap-2">
+          <Star size={12} className="kz-gold" /> {TR.weather}
+        </span>
+        <span className="text-sm">
+          {ph.ikon} <Terim metin={ph.ad} aciklama={GLOSS.faz[ph.ad]} />
+        </span>
+        <span className="text-sm kz-dim">{TR.moonIn} {mSign.ad} {mSign.sembol} burcunda</span>
+        <span className="text-sm kz-dim">☀ {sSign.ad} {TR.season}</span>
+        <span className="text-sm" style={{ color: retro ? "#e08aab" : "#7fd6b0" }}>
+          ☿ {retro ? TR.retroOn : TR.retroOff}
+        </span>
+      </div>
+      <p className="kz-dim mt-3" style={{ fontSize: "0.72rem", lineHeight: 1.6 }}>
+        {GLOSS.faz[ph.ad]} <span style={{ opacity: 0.7 }}>· Altı çizili sözcüklere dokunarak anlamlarını görebilirsin.</span>
+      </p>
     </div>
   );
 }
