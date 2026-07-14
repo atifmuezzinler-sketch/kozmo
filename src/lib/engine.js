@@ -74,7 +74,10 @@ export function mockEngine(profile, date) {
   const renk = AURA_COLORS[rot("aura", AURA_COLORS.length, 7)];
   const motto = MOTTOS[rot("motto", MOTTOS.length, 7)];
   const havuz = GUNUN_CUMLESI[natal.el];
-  const gununCumlesi = havuz[rot("cumle", havuz.length, 3)];
+  /* adım, havuz boyuyla aralarında asal olacak şekilde seçilir → tam döngü:
+     kullanıcı havuzdaki her cümleyi görmeden hiçbiri tekrarlanmaz */
+  const asalAdim = (havuz.length % 7 === 0) ? 5 : 7;
+  const gununCumlesi = havuz[rot("cumle", havuz.length, asalAdim)];
 
   const yukselen = profile.rising
     ? ` Yükselenin ${profile.rising.ad}; dış dünyaya açılan kapın bugün ${EL_AD[profile.rising.el].toLowerCase()} elementinden geçiyor.`
