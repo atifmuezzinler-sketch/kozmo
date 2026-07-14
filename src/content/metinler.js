@@ -167,16 +167,25 @@ export const MOON_SENT = {
     "Ay'ın bugünkü konumu senin doğanla aynı dilde konuşuyor; sezgilerinle mantığın nadir bir ateşkeste.",
     "Ay bugün senin frekansında yayın yapıyor; iç sesinle dış dünya aynı kanalda.",
     "Gökyüzü bugün senden yana esiyor; sezgine attığın adımlar zeminde karşılık buluyor.",
+    "Ay bugün doğanla el sıkışmış; içinden geçenle dışarıda olan bugün örtüşüyor.",
+    "Bugün gökyüzü sana kolaylık tanıyor; akışa güvenmek her zamankinden mantıklı.",
+    "Ay senin tarafında bugün; ertelediğin bir şeyi başlatmak için doğal bir gün.",
   ],
   gergin: [
     "Ay bugün doğanla küçük bir söz düellosunda; kararlarını bir gece bekletmek fena fikir değil.",
     "Ay bugün doğana ters köşe; ilk tepkin yerine ikinci düşüncen konuşsun.",
     "Gökyüzünde hafif bir parazit var; önemli konuşmaları netlik dönene kadar kısa tut.",
+    "Ay bugün seni biraz zorluyor; acele karar yerine sabırlı gözlem daha çok iş görür.",
+    "Bugün gökyüzü hafif çelişkili; hislerinle hemen hareket etme, bir demlensin.",
+    "Ay bugün ritmini şaşırtabilir; büyük hamleleri yarına bırakmak bugünün akıllıca seçimi.",
   ],
   notr: [
     "Gökyüzü bugün tarafsız bir hakem; sonucu senin hamlelerin belirleyecek.",
     "Ay bugün kendi işinde; sahne boş, senaryoyu sen yazıyorsun.",
     "Gökyüzü bugün yorum yapmıyor; günün rengini senin seçimlerin belirleyecek.",
+    "Ay bugün ne itiyor ne çekiyor; direksiyon tamamen sende.",
+    "Gökyüzü bugün sessiz; bu sessizlik bir boşluk değil, sana bırakılmış bir alan.",
+    "Ay bugün seyirci koltuğunda; günün kahramanı da senaristi de sensin.",
   ],
 };
 
@@ -184,22 +193,34 @@ export const CAT_HIGH = {
   aile: [
     "Aile cephesi bugün en güçlü alanın; ertelenmiş bir konuşma için gökyüzü yeşil ışık yakıyor.",
     "Aile tarafında bugün bir yumuşama var; küçük bir telefon büyük bir düğümü çözebilir.",
-    "Evin enerjisi bugün destekleyici; ortak bir plan kurmak için doğru gün.",
+    "Ev tarafı bugün destekleyici; ortak bir plan kurmak için doğru gün.",
+    "Bugün aileyle aran akışta; uzaktakine bir haber, yakındakine bir jest iyi oturur.",
+    "Aile bağların bugün sana güç veriyor; destek istemekten çekinme, tam sırası.",
+    "Bugün evde tatlı bir denge var; paylaşılan basit bir an, günü güzelleştirir.",
   ],
   is: [
     "İş tarafında rüzgâr arkandan esiyor; görünür olmaktan çekinme.",
     "İşte bugün görünürlük kazanıyorsun; fikrini masaya koymaktan çekinme.",
     "Mesleki tarafta kapılar aralık; bir talebini dile getirmek için uygun zemin.",
+    "Bugün işte sözün geçerli; net bir talebi bugün iletmek yarına kalmasın.",
+    "İş cephende bugün akış lehine; başlattığın şey beklediğinden hızlı ilerleyebilir.",
+    "Bugün mesleki sezgin keskin; bir fırsatı fark edersen üstüne gitmenin günü.",
   ],
   ask: [
     "Aşk göstergen yüksek; küçük bir jest, büyük bir yankı bulabilir.",
     "Kalp göstergen bugün cömert; ilk mesajı bekleme, gönder.",
     "Aşkta bugün anlaşılma şansın yüksek; ertelediğin cümleyi kur.",
+    "Bugün duygularını göstermek kolay; içten bir söz, bugün fazlasıyla karşılık bulur.",
+    "Aşk tarafında bugün kapı açık; yakınlaşmak isteyen adımı bugün atsın.",
+    "Bugün sıcaklığın fark ediliyor; sevdiğine ayıracağın kısa bir an uzun iz bırakır.",
   ],
   para: [
     "Para akışında fırsat kokusu var; ama fırsat, acele ile karıştırılmamalı.",
     "Para tarafında bugün berrak düşünüyorsun; planlama için ideal.",
     "Finansal sezgin bugün keskin; ama keskinlik, acele demek değil.",
+    "Bugün bütçene soğukkanlı bakabiliyorsun; bir düzenleme için sakin ve doğru gün.",
+    "Para tarafında bugün kontrol sende; küçük ama sağlam bir adım, ileride rahatlatır.",
+    "Bugün maddi konularda net görüyorsun; ertelediğin bir hesabı gözden geçirmek iyi gelir.",
   ],
 };
 
@@ -208,21 +229,33 @@ export const CAT_RISKY = {
     "Aile içinde alınganlık katsayısı yüksek; espri dozunu bugün bir tık düşür.",
     "Aile içi eski bir konu bugün alevlenmeye hazır; kibriti sen çakma.",
     "Bugün evde tartışmanın maliyeti yüksek; ertele, yarın ucuzlar.",
+    "Bugün ailede kelimeler kolay yanlış anlaşılır; net konuş, varsayımı bırak.",
+    "Aile tarafında bugün sabır bütçen sınırlı; büyük konuyu daha sakin bir güne sakla.",
+    "Bugün evde küçük bir gerginlik olabilir; ilk sözü sen yumuşat, kâr sende kalır.",
   ],
   is: [
     "İşte imza atmadan önce iki kez oku; bugün küçük harfler günü.",
     "İşte bugün yanlış anlaşılma riski yüksek; iki kez oku, bir kez gönder.",
     "Bugün işte aceleyle verilen söz, yarın faiziyle geri döner.",
+    "İş tarafında bugün detay atlanabilir; önemli bir işi göndermeden bir kez daha gözden geçir.",
+    "Bugün işte tartışmaya değmez konular çıkabilir; enerjini gerçek önceliğe sakla.",
+    "İş cephende bugün acele karar riskli; bir gün beklemek çoğu zaman en ucuz sigorta.",
   ],
   ask: [
     "Aşkta varsayım yapma; sor. Bugün tahminler pahalı.",
     "Aşkta bugün kıskançlık pahalı bir aksesuar; takma.",
     "Partnerinin sessizliği hakkında roman yazma; sor, kısa cevabı al.",
+    "Bugün aşkta küçük bir söz büyük anlaşılabilir; niyetini açık tut, ima etme.",
+    "Aşk tarafında bugün alınganlık kolay; karşındakine de bir gün kredisi aç.",
+    "Bugün duygusal bir tepki hızlı gelebilir; cevabını yazmadan önce bir nefes al.",
   ],
   para: [
     "Para konusunda büyük kararları yarına saklamak bugünkü en kârlı yatırım olabilir.",
     "Bugün 'kaçmaz fırsat' diye gelen her şey kaçar; bırak kaçsın.",
     "Cüzdanın bugün duygusal kararlara açık; büyük harcamayı bir gün beklet.",
+    "Bugün maddi bir konuda acele etme; sabah net görünen, akşam daha da netleşir.",
+    "Para tarafında bugün 'sonra pişman olurum' dediğin şeyi bugün alma; liste yap, beklet.",
+    "Bugün bütçende küçük bir sızıntı gözden kaçabilir; harcamaya bir bak, tıka.",
   ],
 };
 
@@ -231,48 +264,72 @@ export const MOODS = [
     k: "huzurlu", ad: "Huzurlu", rx: [
       "Bu dengeyi not et: bugün seni sakinleştiren şeyi yarına da davet et. Akşam on dakikalık ekransız bir mola, bu huzurun faizidir.",
       "Huzur, korunması gereken bir bahçe. Bugün ona bir çit çek: gündeminden bir konuyu azalt.",
+      "İyi giden bir şey var; bugün onu fark et ve adını koy. Fark edilen huzur, iki kez yaşanır.",
+      "Bu sakinlik bir fırsat: uzun süredir ertelediğin küçük bir işi bugün, telaşsızca hallet. Dingin zihin, en verimli zihindir.",
+      "Bugün kimseye bir şey kanıtlaman gerekmiyor. Bu boşluğu bir yürüyüşle ya da sevdiğin bir sesle doldur; huzur tüketilmez, beslenir.",
     ],
   },
   {
     k: "gergin", ad: "Gergin", rx: [
       "Omuzlarını kulaklarından uzaklaştır — evet, şimdi. Dört saniye al, altı saniye ver; üç tur. Gerginlik mesajdır, ceza değil.",
       "Gerginliğin bir adresi var; onu bul ve küçült: 'her şey' değil, 'şu iş'. Ad koymak, yükün yarısıdır.",
+      "Bugün zihnin kalabalık; bir kâğıda seni geren üç şeyi yaz. Dışarı çıkan düşünce, içeride büyüdüğü kadar büyümez.",
+      "Bir bardak su iç, pencereden uzağa bak. Bu iki dakikalık ara, bugün vereceğin en isabetli karar olabilir.",
+      "Her şeyi bugün çözmen gerekmiyor. En küçük düğümü seç, sadece onu gevşet; gerisi yarının işi, sırası gelecek.",
     ],
   },
   {
     k: "umutlu", ad: "Umutlu", rx: [
       "Umut, eylemle beslenir: bugün o umudun yönünde atılabilecek en küçük adımı seç ve at. Küçüklüğü seni yanıltmasın.",
       "Umudunu bir tarihe bağla: 'bir gün' değil, 'perşembe'. Takvim, umudun en iyi arkadaşıdır.",
+      "Bugün bu iyi hissi birine bulaştır: kısa bir mesajla, içten bir teşekkürle. Paylaşılan umut, bölünmez, çoğalır.",
+      "İçindeki 'olabilir'i 'nasıl olur'a çevir. Bir kâğıda tek bir ilk adım yaz; umut, plana dönüşünce ayakları yere basar.",
+      "Bugün cesaretin yüksek; en çok korktuğun o küçük işi tam da bugün başlat. Umutlu günler, ertelenenlerin panzehiridir.",
     ],
   },
   {
     k: "yorgun", ad: "Yorgun", rx: [
       "Bugün kahramanlık günü değil, bakım günü. Bir işi sil, bir işi ertele, kalanı yavaşlat. Gökyüzü de bazen bulutlanır.",
       "Yorgunluk, borcun faturasıdır; bugün asgari ödemeyi yap: erken uyu, telefonu erken bırak.",
+      "Bugün listeni yarıya indir; kalan yarısı seni yarın bekler, kaçmaz. Dinlenmek de bir üretkenliktir, tembellik değil.",
+      "Kendine küçük bir iyilik borçlusun: on dakika hiçbir şey yapmadan otur. Boş geçen o zaman, aslında en dolu yatırımdır.",
+      "Bugün 'hayır' demek de bir güç. Enerjini gerçekten değeni için sakla; her davete yetişmen gerekmiyor.",
     ],
   },
   {
     k: "kararsiz", ad: "Kararsız", rx: [
       "İki seçeneği de yazı-tura at — para havadayken hangisini dilediğine dikkat et. Cevabın çoğu zaman oradadır.",
       "Kararsızlık çoğu zaman bilgi eksiği değil, kriter eksiğidir. Bugün tek kriter seç: hangisi seni büyütür?",
+      "Küçük kararı hemen ver, büyüğü bir geceye yatır. Sabah aynı şeyi hâlâ istiyorsan, o senin cevabındır.",
+      "Bir kâğıdı ikiye böl, iki tarafı da yaz. Görünür hale gelen seçim, kafanın içinde döndüğünden daha nettir.",
+      "Yanlış karar, kararsızlıktan iyidir; birinden ders çıkar, diğerinden çıkamazsın. Bugün küçük bir adımla ilerle, dur değil.",
     ],
   },
   {
     k: "enerjik", ad: "Enerjik", rx: [
       "Bu enerjiyi en inatçı işine yatır; kolay işler bu cömertliği hak etmiyor. Akşama bir 'bitti' demenin keyfini sakla.",
       "Enerji taşarken hedef küçültme; bugün büyük taşı kaldır, çakıllar yarına.",
+      "Bugün başlamak için beklediğin o iş var ya — işte o. Momentum bugün senin yanında; harekete geçir, tökezlemeden.",
+      "Bu ivmeyi dağıtma; tek bir hedefe kilitle. Dört işi yarım bırakmaktansa bir işi tam bitirmek, bugünün en tatmin edici hamlesi.",
+      "Enerjini yalnız işe değil, birine de ayır: uzun süredir aramadığın birine bugün ulaş. Coşku, paylaşınca uzar.",
     ],
   },
   {
     k: "kirilgan", ad: "Kırılgan", rx: [
       "Kırılganlık, ince ayarlı bir radar demektir. Bugün kendine, en sevdiğin insana davrandığın gibi davran. Sınır koymak da şefkattir.",
       "Bugün cildin ince; dünyayı kalınlaştıramazsın ama dozunu ayarlayabilirsin. Haberleri ve akışı azalt.",
+      "Bugün kendine yumuşak ol; herkes her gün güçlü olmak zorunda değil. Sıcak bir içecek, sevdiğin bir battaniye — küçük şeyler bugün büyük iş görür.",
+      "İçini dökebileceğin birini ara bugün; yük, paylaşılınca hafifler. Yalnız taşımak zorunda değilsin, kimse değil.",
+      "Bugün 'yeterince iyiyim' de, gerisini bırak. Kendine gösterdiğin sabır, en çok bugün fark yaratacak.",
     ],
   },
   {
     k: "merakli", ad: "Meraklı", rx: [
       "Merakını tek soruya odakla ve yirmi dakika sadece onun peşinden git. Dağınık merak kıvılcımdır; odaklı merak fener.",
       "Merakının peşine bir defter tak; akşam üç satır not, sabah bir keşfe dönüşür.",
+      "Bugün öğrenmek istediğin o şeyi ertelemeden araştır. Beslenen merak büyür, bastırılan söner; sen büyüteni seç.",
+      "Bir soru sor bugün — birine, bir kitaba, kendine. En iyi cevaplar, sorma cesaretini gösterenleri bekler.",
+      "Merakın bugün pusulan; onu alıştığın bir yola değil, hiç gitmediğin bir sokağa çevir. Küçük bir keşif günü kurtarır.",
     ],
   },
 ];

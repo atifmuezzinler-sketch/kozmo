@@ -113,11 +113,24 @@ export function mockSynastry(pA, pB, relType) {
     aile: "aile bağı", is: "iş birliği",
   };
   const RELDICT = {
-    uyumlu: `${sA.ad} ile ${sB.ad}, ${EL_AD[sA.el]} ve ${EL_AD[sB.el]} elementlerinin doğal ittifakında buluşuyor. Bu ${RELTXT[relType]}, birbirini tamamlayan iki ritim gibi: biri tempo tutuyor, diğeri melodiyi taşıyor.`,
-    gergin: `${sA.ad} ile ${sB.ad}, ${EL_AD[sA.el]} ve ${EL_AD[sB.el]} elementlerinin klasik geriliminde. Bu ${RELTXT[relType]} kolay değil ama sığ da değil: sürtünme, doğru yönetilirse cila görevi görür.`,
-    notr: `${sA.ad} ile ${sB.ad} arasında ne otomatik uyum ne kalıcı gerilim var; bu ${RELTXT[relType]} büyük ölçüde emeğe yazılmış bir hikâye. Gökyüzü burada kalemi size bırakıyor.`,
+    uyumlu: [
+      `${sA.ad} ile ${sB.ad}, ${EL_AD[sA.el]} ve ${EL_AD[sB.el]} elementlerinin doğal ittifakında buluşuyor. Bu ${RELTXT[relType]}, birbirini tamamlayan iki ritim gibi: biri tempo tutuyor, diğeri melodiyi taşıyor.`,
+      `${sA.ad} ve ${sB.ad} arasında akış kolay; ${EL_AD[sA.el]} ile ${EL_AD[sB.el]} birbirini itmiyor, besliyor. Bu ${RELTXT[relType]}, çoğu çiftin emekle kurduğu uyumu doğuştan taşıyor.`,
+      `${sA.ad} ile ${sB.ad}, aynı frekansı yakalayan iki farklı ses gibi. ${EL_AD[sA.el]} ve ${EL_AD[sB.el]} elementleri bu ${RELTXT[relType]}na doğal bir rahatlık veriyor; anlaşmak için çabalamak gerekmiyor.`,
+    ],
+    gergin: [
+      `${sA.ad} ile ${sB.ad}, ${EL_AD[sA.el]} ve ${EL_AD[sB.el]} elementlerinin klasik geriliminde. Bu ${RELTXT[relType]} kolay değil ama sığ da değil: sürtünme, doğru yönetilirse cila görevi görür.`,
+      `${sA.ad} ve ${sB.ad} farklı hızlarda ilerliyor; ${EL_AD[sA.el]} ile ${EL_AD[sB.el]} ilk bakışta zıt görünür. Ama bu ${RELTXT[relType]}nda fark, doğru bakınca zenginliğe dönüşür.`,
+      `${sA.ad} ile ${sB.ad} birbirine kolay teslim olmaz; ${EL_AD[sA.el]} ve ${EL_AD[sB.el]} birbirini zorlar. Bu ${RELTXT[relType]}, konfor değil ama gelişim vaat eder — birbirini büyüten türden.`,
+    ],
+    notr: [
+      `${sA.ad} ile ${sB.ad} arasında ne otomatik uyum ne kalıcı gerilim var; bu ${RELTXT[relType]} büyük ölçüde emeğe yazılmış bir hikâye. Gökyüzü burada kalemi size bırakıyor.`,
+      `${sA.ad} ve ${sB.ad} için gökyüzü net bir yön çizmiyor; ${EL_AD[sA.el]} ile ${EL_AD[sB.el]} ne çeker ne iter. Bu ${RELTXT[relType]}nı belirleyecek olan yıldızlar değil, sizin emeğiniz.`,
+      `${sA.ad} ile ${sB.ad} arasında hikâye henüz yazılmamış; ${EL_AD[sA.el]} ve ${EL_AD[sB.el]} size boş bir sayfa bırakıyor. Bu ${RELTXT[relType]}nın rengi, ikinizin katacağı emekle belirlenecek.`,
+    ],
   };
-  return { skorlar, genel, analiz: RELDICT[rel], sA, sB };
+  const relIdx = hashStr(pA.birthDate + pB.birthDate + relType) % 3;
+  return { skorlar, genel, analiz: RELDICT[rel][relIdx], sA, sB };
 }
 
 /* 7 günlük gökyüzü olayları — yapılandırılmış */
