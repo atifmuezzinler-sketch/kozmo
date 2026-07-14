@@ -13,7 +13,7 @@ export function FontToggle() {
   }, [buyuk]);
   return (
     <button className="kz-chip" onClick={() => setBuyuk(!buyuk)}
-      title="Yazı boyutu"
+      title="Yazı boyutu" aria-label={buyuk ? "Yazıyı küçült" : "Yazıyı büyüt"}
       style={{ padding: "4px 10px", fontWeight: 700, fontSize: "0.7rem" }}>
       {buyuk ? "A−" : "A+"}
     </button>
@@ -48,7 +48,7 @@ export function StarField() {
       d: (hashStr("d" + i) % 40) / 10,
     })), []);
   return (
-    <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 0 }}>
+    <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 0 }} aria-hidden="true">
       {stars.map((st, i) => (
         <div key={i} className="kz-star" style={{
           left: st.left + "%", top: st.top + "%",

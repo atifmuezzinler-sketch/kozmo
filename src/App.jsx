@@ -10,8 +10,12 @@ const SAKLA = "kozmo_profil";
 
 export default function App() {
   const [profile, setProfile] = useState(() => {
-    try { return JSON.parse(localStorage.getItem(SAKLA)) || null; }
-    catch { return null; }
+    try {
+      const p = JSON.parse(localStorage.getItem(SAKLA));
+      // Yapı doğrulaması: eksik/eski format profili reddet (güncelleme sonrası çökme kalkanı)
+      if (p && p.birthDate && p.sign && p.sign.sembol && p.sign.el) return p;
+      return null;
+    } catch { return null; }
   });
   const [mode, setMode] = useState("pusula");
   const [firstReading, setFirstReading] = useState(!profile);
@@ -40,12 +44,12 @@ export default function App() {
         <Onboarding onDone={kaydet} />
       ) : (
         <div className="max-w-2xl mx-auto px-4 py-8 relative" style={{ zIndex: 1 }}>
-          <div className="flex items-center justify-between mb-5">
+          <div className="flex items-center justify-between mb-5 gap-2 flex-wrap">
             <div className="flex items-center gap-2">
               <Compass size={18} className="kz-gold" />
               <span className="font-extrabold tracking-widest">KOZMO</span>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap justify-end">
               <FontToggle />
               <span className="text-sm kz-dim">
                 {profile.sign.sembol} {profile.sign.ad}
@@ -77,8 +81,8 @@ export default function App() {
             : <UyumView profile={profile} />}
 
           <p className="text-center text-xs kz-dim mt-8 mb-1">{TR.disclaimer}</p>
-          <p className="text-center kz-dim mb-1" style={{ fontSize: 11 }}>{TR.privacyNote}</p>
-          <p className="text-center kz-dim mb-6" style={{ fontSize: 11 }}>{TR.dstNote}</p>
+          <p className="text-center kz-dim mb-1" style={{ fontSize: 12 }}>{TR.privacyNote}</p>
+          <p className="text-center kz-dim mb-6" style={{ fontSize: 12 }}>{TR.dstNote}</p>
         </div>
       )}
     </div>

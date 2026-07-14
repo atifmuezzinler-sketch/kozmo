@@ -55,7 +55,7 @@ export function SkyStrip({ today }) {
               <div key={i} style={{ width: "13%", textAlign: "center", position: "relative", height: 62 }}>
                 <p style={{
                   fontSize: "0.7rem", margin: 0,
-                  color: has ? "#d4af37" : i === 0 ? "#ece6f5" : "#8d80ab",
+                  color: has ? "#d4af37" : i === 0 ? "#ece6f5" : "#a99cc9",
                   fontWeight: has || i === 0 ? 600 : 400,
                 }}>{GUN_KISA[d.getDay()]} {d.getDate()}</p>
                 {has && (

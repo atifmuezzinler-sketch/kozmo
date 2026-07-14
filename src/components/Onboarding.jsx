@@ -80,7 +80,8 @@ export default function Onboarding({ onDone }) {
                 <span className="kz-dim"> · {EL_AD[sign.el]} elementi</span>
               </span>
               {sunInfo.cusp && (
-                <button onClick={() => setCuspAc(!cuspAc)} style={{
+                <button onClick={() => setCuspAc(!cuspAc)}
+                  aria-label="Burç sınırı hakkında bilgi" style={{
                   background: "none", border: "1px solid rgba(212,175,55,0.5)",
                   color: "#d4af37", borderRadius: 99, width: 18, height: 18,
                   fontSize: 11, lineHeight: 1, cursor: "pointer", flexShrink: 0,
@@ -133,7 +134,7 @@ export default function Onboarding({ onDone }) {
       <SkyStrip today={today} />
 
       <p className="text-center text-xs kz-dim mt-2">{TR.disclaimer}</p>
-      <p className="text-center kz-dim mt-1" style={{ fontSize: 11 }}>{TR.privacyNote}</p>
+      <p className="text-center kz-dim mt-1" style={{ fontSize: 12 }}>{TR.privacyNote}</p>
     </div>
   );
 }

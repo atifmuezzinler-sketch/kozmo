@@ -90,7 +90,7 @@ export function PusulaView({ profile, today, firstReading }) {
                   <div className="flex justify-between mt-1">
                     {weekly.days.map((g, i) => (
                       <span key={i} className="kz-dim text-center"
-                        style={{ width: "12%", fontSize: "0.62rem" }}>
+                        style={{ width: "12%", fontSize: "0.68rem" }}>
                         {GUN_KISA[g.d.getDay()]}
                       </span>
                     ))}

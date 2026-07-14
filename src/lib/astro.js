@@ -21,7 +21,11 @@ export const EL_AD = { ates: "Ateş", toprak: "Toprak", hava: "Hava", su: "Su" }
 
 const D2R = Math.PI / 180;
 export const norm = (d) => ((d % 360) + 360) % 360;
-export const signOf = (lon) => SIGNS[Math.floor(norm(lon) / 30)];
+export const signOf = (lon) => {
+  const l = Number(lon);
+  if (!Number.isFinite(l)) return SIGNS[0]; // geçersiz girdi güvenlik kalkanı
+  return SIGNS[Math.floor(norm(l) / 30)];
+};
 
 /* Geosantrik ekliptik boylamlar — hassas efemeris (astronomy-engine) */
 export function sunLon(date) {
@@ -60,7 +64,9 @@ export function moonPhase(date) {
 
 /* Doğum anındaki Güneş boylamı */
 export function natalSunLon(birthDate) {
-  return sunLon(new Date(birthDate + "T12:00:00Z"));
+  const d = new Date(birthDate + "T12:00:00Z");
+  if (isNaN(d.getTime())) return 0; // geçersiz tarih güvenlik kalkanı
+  return sunLon(d);
 }
 
 /* Yükselen burç — hassas yıldız zamanı + klasik ASC formülü

@@ -8,6 +8,8 @@
     #1a0b2e;
   color: #ece6f5;
   min-height: 100vh;
+  min-height: 100dvh; /* mobil tarayıcı adres çubuğu değişimine dayanıklı yükseklik */
+  overflow-x: hidden; /* istenmeyen yatay kaydırma emniyeti */
 }
 .kz-glass {
   background: rgba(255, 255, 255, 0.045);
@@ -78,13 +80,23 @@
   padding: 11px 14px;
   color: #ece6f5;
   font-family: "Montserrat", sans-serif;
-  font-size: 0.875rem;
+  font-size: 16px; /* iOS Safari input zoom'unu engeller — 16px altı otomatik yakınlaştırma yapar */
   width: 100%;
   outline: none;
   transition: border 0.2s;
   color-scheme: dark;
 }
 .kz-input:focus { border-color: #d4af37; }
+
+/* Mobil dokunma incelikleri */
+.kz-root button, .kz-chip, .kz-tab, .kz-btn {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.kz-eyebrow, .kz-btn, .kz-chip, .kz-tab {
+  -webkit-user-select: none;
+  user-select: none;
+}
 .kz-btn {
   background: linear-gradient(135deg, #d4af37, #b8912a);
   color: #1a0b2e;
