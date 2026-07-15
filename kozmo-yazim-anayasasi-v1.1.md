@@ -1,6 +1,7 @@
-# KOZMO YAZIM ANAYASASI — v1.0
+# KOZMO YAZIM ANAYASASI — v1.1
 
 **Statü:** Onaylı final. Beş bölümün tamamı Atıf Müezzinler tarafından madde madde onaylanmıştır (13 Temmuz 2026).
+**v1.1 değişikliği (15 Temmuz 2026):** 4.2'deki analiz uzunluk bandı 60-90 kelimeden **45-70 kelimeye** çekildi. Gerekçe: sistem talimatı provasında band ampirik olarak test edildi; yayındaki mevcut analiz metinleri 40-50 kelime (ort. 45), prova çıktıları 52-60 kelime bandına düştü. 60-90 bandı İngilizce'ye göre kalibre edilmiş olup Türkçe'nin sondan eklemeli yapısıyla uyumsuzdu; banda ulaşmak metni yapay şişirmeyi ya da paragraf duvarı kurmayı gerektiriyordu — ikisi de anayasanın kendi yasakları. Band, ürünün gerçeğine göre yeniden kalibre edilmiştir.
 **İşlev:** Bu belge, Kozmo'nun tüm metin üretiminin bağlayıcı çerçevesidir. Faz 2'de Claude API sistem talimatının çekirdeği olarak kullanılacak; insan eliyle yazılan her içerik de aynı süzgeçten geçer.
 **Öncelik hiyerarşisi:** Bölüm 5 (etik) > veri tutarlılığı > tür kuralları (Bölüm 4) > ses ve üslup (Bölüm 2-3) > güzellik.
 
@@ -113,7 +114,7 @@ Uygulamanın açılış vuruşu; kullanıcının her gün ilk okuduğu ve en ço
 
 ### 4.2 Günün Okuması (Analiz) — sohbet
 
-En uzun metin; Kozmo'nun masaya oturup iki dakika konuştuğu yer. **Uzunluk:** 3-5 cümle, 60-90 kelime; asla paragraf duvarı değil. **Yapı — sabit üç hareket:** (1) gökyüzü durumu, kullanıcıya bağlanarak ("Ay bugün senin karşı kıyında"), (2) günün baskın teması — en güçlü ve en riskli alandan doğar, (3) tek somut eğilim/davet. **Sıcaklık:** sakin ve emin; ters köşe burada nadirdir, güven esastır. **Özel kurallar:** gökyüzü verisi her analizde en az bir kez somut geçer (hesap katmanımızın vitrini — yetkinlik kanıtı); skorla çelişemez (skor Aşk 85 iken "aşkta temkin" yazılamaz — veri-metin tutarlılığı anayasal şart); yükselen biliniyorsa haftada birkaç kez dokunulur, her gün değil.
+En uzun metin; Kozmo'nun masaya oturup iki dakika konuştuğu yer. **Uzunluk:** 4-5 cümle, 45-70 kelime (v1.1'de kalibre edildi); asla paragraf duvarı değil, asla yapay şişirme yok. **Yapı — sabit üç hareket:** (1) gökyüzü durumu, kullanıcıya bağlanarak ("Ay bugün senin karşı kıyında"), (2) günün baskın teması — en güçlü ve en riskli alandan doğar, (3) tek somut eğilim/davet. **Sıcaklık:** sakin ve emin; ters köşe burada nadirdir, güven esastır. **Özel kurallar:** gökyüzü verisi her analizde en az bir kez somut geçer (hesap katmanımızın vitrini — yetkinlik kanıtı); skorla çelişemez (skor Aşk 85 iken "aşkta temkin" yazılamaz — veri-metin tutarlılığı anayasal şart); yükselen biliniyorsa haftada birkaç kez dokunulur, her gün değil.
 
 ### 4.3 Motto (Aura Kartı) — imza
 
@@ -177,6 +178,6 @@ Bölüm 3'teki çift katman burada da geçerlidir: bu bölümün yasakları sist
 
 ## YÜRÜRLÜK
 
-Bu anayasa v1.0 olarak yürürlüktedir. Değişiklik yetkisi Atıf Müezzinler'dedir; her değişiklik sürüm numarasıyla kayda geçer. Faz 2'de Claude API sistem talimatı bu belgeden türetilir; mevcut yerel içerik havuzu (metinler.js) yeni eklemelerde bu belgeye tabidir.
+Bu anayasa v1.1 olarak yürürlüktedir. Değişiklik yetkisi Atıf Müezzinler'dedir; her değişiklik sürüm numarasıyla kayda geçer. Faz 2'de Claude API sistem talimatı bu belgeden türetilir; mevcut yerel içerik havuzu (metinler.js) yeni eklemelerde bu belgeye tabidir.
 
 *Kozmo — Kişisel gökyüzü rehberin. Eğlence ve ilham amaçlıdır.*
