@@ -1,9 +1,9 @@
 import {
   sunLon, moonLon, planetLon, isRetro, moonPhase, signOf, natalSunLon, EL_AD,
-} from "./astro";
+} from "./astro.js";
 import {
   AURA_COLORS, MOTTOS, GUNUN_CUMLESI, MOON_SENT, CAT_HIGH, CAT_RISKY,
-} from "../content/metinler";
+} from "../content/metinler.js";
 
 export const KATEGORILER = ["aile", "is", "ask", "para"];
 
@@ -77,15 +77,27 @@ export function mockEngine(profile, date) {
   /* adım, havuz boyuyla aralarında asal olacak şekilde seçilir → tam döngü:
      kullanıcı havuzdaki her cümleyi görmeden hiçbiri tekrarlanmaz */
   const asalAdim = (havuz.length % 7 === 0) ? 5 : 7;
-  const gununCumlesi = havuz[rot("cumle", havuz.length, asalAdim)];
+  const cumleIdx = rot("cumle", havuz.length, asalAdim);
 
   const yukselen = profile.rising
     ? ` Yükselenin ${profile.rising.ad}; dış dünyaya açılan kapın bugün ${EL_AD[profile.rising.el].toLowerCase()} elementinden geçiyor.`
     : "";
   const analiz =
-    `Güneş'in ${natal.ad} doğası bugün ${phase.ad.toLowerCase()} enerjisiyle buluşuyor; Ay ise ${mSign.ad} burcunda ilerliyor. ` +
+    `Güneş'in ${natal.ad} doğası bugün ${phase.ad.toLowerCase()} evresiyle buluşuyor; Ay ise ${mSign.ad} burcunda ilerliyor. ` +
     sec(r, MOON_SENT[rel]) + yukselen + " " +
     sec(r, CAT_HIGH[best]) + " " + sec(r, CAT_RISKY[risky]);
+
+  /* "Bugün" tekrar kalkanı (anayasa: Sugarman maddesi).
+     Analiz zaten "bugün" içeriyorsa, günün cümlesinde ondan kaçınılır.
+     Rotasyon sırası korunur: aynı gün + aynı kullanıcı = aynı sonuç. */
+  const analizBugun = (analiz.match(/bugün/gi) || []).length;
+  let gununCumlesi = havuz[cumleIdx];
+  if (analizBugun >= 1 && /bugün/i.test(gununCumlesi)) {
+    for (let adim = 1; adim < havuz.length; adim++) {
+      const aday = havuz[(cumleIdx + adim * asalAdim) % havuz.length];
+      if (!/bugün/i.test(aday)) { gununCumlesi = aday; break; }
+    }
+  }
 
   return {
     skorlar,
