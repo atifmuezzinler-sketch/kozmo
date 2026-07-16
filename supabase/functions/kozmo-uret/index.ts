@@ -24,7 +24,10 @@ const IZINLI_MODELLER = [
   "claude-sonnet-5", "claude-opus-4-8",
   "claude-haiku-4-5-20251001", "claude-sonnet-4-6",
 ];
-const MAX_TOKENS = 1200;
+/* 1200 iken Sonnet 5 "boş yanıt" veriyordu: yeni nesil modeller düşünme
+   (thinking) için token harcıyor ve yazmaya yer kalmıyordu. 4000 rahat sınır;
+   çıktı zaten ~350 token, fazlası faturaya yansımaz (yalnızca üretilen sayılır). */
+const MAX_TOKENS = 4000;
 
 const CORS = {
   "Access-Control-Allow-Origin": "*",
@@ -70,6 +73,14 @@ async function claudeCagir(talimat: string, kullaniciMesaji: string, apiKey: str
     .filter((p: any) => p.type === "text")
     .map((p: any) => p.text)
     .join("");
+  // Teşhis: metin boşsa yanıtın yapısını hataya taşı
+  if (!metin.trim()) {
+    const bloklar = (veri.content ?? []).map((p: any) => p.type).join(",") || "hiç blok yok";
+    throw new Error(
+      `Model metin döndürmedi. Blok tipleri: [${bloklar}]. ` +
+      `stop_reason: ${veri.stop_reason ?? "?"}. usage: ${JSON.stringify(veri.usage ?? {})}`,
+    );
+  }
   return { metin, kullanim: veri.usage ?? null };
 }
 
