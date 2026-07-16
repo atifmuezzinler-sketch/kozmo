@@ -27,7 +27,10 @@ export function WeatherBanner({ today }) {
         </span>
       </div>
       <p className="kz-dim mt-3" style={{ fontSize: "0.72rem", lineHeight: 1.6 }}>
-        {GLOSS.faz[ph.ad]} <span style={{ opacity: 0.7 }}>· Altı çizili sözcüklere dokunarak anlamlarını görebilirsin.</span>
+        {GLOSS.faz[ph.ad]}{" "}
+        <span style={{ opacity: 0.7, fontStyle: "italic" }}>
+          (Altı çizili sözcüklere dokunarak anlamını görebilirsin.)
+        </span>
       </p>
     </div>
   );
