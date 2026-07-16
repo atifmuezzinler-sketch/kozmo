@@ -16,7 +16,14 @@ import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { TALIMATLAR } from "./talimatlar.ts";
 import { denetleGunluk, denetleSynastry, denetleCheckin, krizSinyaliVar } from "./denetim.ts";
 
-const MODEL = "claude-sonnet-4-6";
+/* Varsayılan model. Test için istekte "model" alanı gönderilebilir:
+   claude-sonnet-5 (varsayılan, $2/$10 intro) | claude-opus-4-8 ($5/$25)
+   claude-haiku-4-5-20251001 ($1/$5) | claude-sonnet-4-6 ($3/$15) */
+const VARSAYILAN_MODEL = "claude-sonnet-5";
+const IZINLI_MODELLER = [
+  "claude-sonnet-5", "claude-opus-4-8",
+  "claude-haiku-4-5-20251001", "claude-sonnet-4-6",
+];
 const MAX_TOKENS = 1200;
 
 const CORS = {
@@ -32,7 +39,7 @@ const json = (govde: unknown, durum = 200) =>
   });
 
 /* Claude API çağrısı — prompt caching ile (sistem talimatı %90 ucuzlar) */
-async function claudeCagir(talimat: string, kullaniciMesaji: string, apiKey: string) {
+async function claudeCagir(talimat: string, kullaniciMesaji: string, apiKey: string, model: string) {
   const yanit = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
     headers: {
@@ -41,7 +48,7 @@ async function claudeCagir(talimat: string, kullaniciMesaji: string, apiKey: str
       "anthropic-version": "2023-06-01",
     },
     body: JSON.stringify({
-      model: MODEL,
+      model,
       max_tokens: MAX_TOKENS,
       system: [
         {
@@ -63,7 +70,7 @@ async function claudeCagir(talimat: string, kullaniciMesaji: string, apiKey: str
     .filter((p: any) => p.type === "text")
     .map((p: any) => p.text)
     .join("");
-  return metin;
+  return { metin, kullanim: veri.usage ?? null };
 }
 
 /* Modelin döndürdüğü metinden JSON çıkar (kod bloğu sarmalı olsa bile) */
@@ -107,9 +114,12 @@ Deno.serve(async (req: Request) => {
     return json({ hata: "Geçersiz JSON gövdesi" }, 400);
   }
 
-  const { tur, girdi } = govde ?? {};
+  const { tur, girdi, model: istenenModel } = govde ?? {};
   if (!tur || !girdi) return json({ hata: "'tur' ve 'girdi' zorunlu" }, 400);
   if (!TALIMATLAR[tur]) return json({ hata: `Bilinmeyen tür: ${tur}` }, 400);
+
+  const model = istenenModel && IZINLI_MODELLER.includes(istenenModel)
+    ? istenenModel : VARSAYILAN_MODEL;
 
   /* KRİZ ÖN TARAMASI (anayasa 5.2 — en öncelikli madde)
      Model çağrılmadan önce yerel tarama; sinyal varsa model yine çağrılır
@@ -127,7 +137,9 @@ Deno.serve(async (req: Request) => {
           ? kullaniciMesaji
           : `${kullaniciMesaji}\n\nÖNCEKİ DENEMEN ŞU KURALLARI İHLAL ETTİ, DÜZELT:\n- ${sonHatalar.join("\n- ")}`;
 
-      const ham = await claudeCagir(talimat, mesaj, apiKey);
+      const t0 = Date.now();
+      const { metin: ham, kullanim } = await claudeCagir(talimat, mesaj, apiKey, model);
+      const sure = Date.now() - t0;
       const cikti = jsonAyikla(ham);
       const hatalar = denetle(tur, cikti, girdi);
 
@@ -135,7 +147,7 @@ Deno.serve(async (req: Request) => {
       if (krizOn && !cikti.kriz) hatalar.push("KRİTİK: Kriz sinyali var, kriz:true olmalı (5.2)");
 
       if (hatalar.length === 0) {
-        return json({ basarili: true, cikti, deneme });
+        return json({ basarili: true, cikti, deneme, model, sure_ms: sure, kullanim });
       }
       sonHatalar = hatalar;
       console.log(`Deneme ${deneme} denetimden geçemedi:`, hatalar);
@@ -148,5 +160,5 @@ Deno.serve(async (req: Request) => {
   }
 
   /* İki deneme de başarısız — uygulama yerel havuza düşecek */
-  return json({ basarili: false, hatalar: sonHatalar }, 200);
+  return json({ basarili: false, hatalar: sonHatalar, model }, 200);
 });
