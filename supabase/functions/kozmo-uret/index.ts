@@ -73,17 +73,39 @@ async function claudeCagir(talimat: string, kullaniciMesaji: string, apiKey: str
   return { metin, kullanim: veri.usage ?? null };
 }
 
-/* Modelin döndürdüğü metinden JSON çıkar (kod bloğu sarmalı olsa bile) */
+/* Modelin döndürdüğü metinden JSON çıkar.
+   Modeller bazen önsöz, kod bloğu ya da açıklama ekler; hepsini ayıklar. */
 function jsonAyikla(metin: string) {
-  const temiz = metin.replace(/```json\s*/gi, "").replace(/```/g, "").trim();
-  try {
-    return JSON.parse(temiz);
-  } catch {
-    const bas = temiz.indexOf("{");
-    const son = temiz.lastIndexOf("}");
-    if (bas !== -1 && son > bas) return JSON.parse(temiz.slice(bas, son + 1));
-    throw new Error("Geçerli JSON bulunamadı");
+  if (!metin || !metin.trim()) throw new Error("Model boş yanıt döndürdü");
+
+  // 1) Kod bloğu sarmalını temizle
+  let temiz = metin.replace(/```(?:json)?\s*/gi, "").replace(/```/g, "").trim();
+
+  // 2) Doğrudan dene
+  try { return JSON.parse(temiz); } catch { /* devam */ }
+
+  // 3) İlk { ile son } arasını al (önsöz/sonsöz varsa kurtarır)
+  const bas = temiz.indexOf("{");
+  const son = temiz.lastIndexOf("}");
+  if (bas !== -1 && son > bas) {
+    try { return JSON.parse(temiz.slice(bas, son + 1)); } catch { /* devam */ }
   }
+
+  // 4) Dengeli süslü parantez taraması (iç içe JSON için)
+  if (bas !== -1) {
+    let derinlik = 0;
+    for (let i = bas; i < temiz.length; i++) {
+      if (temiz[i] === "{") derinlik++;
+      else if (temiz[i] === "}") {
+        derinlik--;
+        if (derinlik === 0) {
+          try { return JSON.parse(temiz.slice(bas, i + 1)); } catch { break; }
+        }
+      }
+    }
+  }
+  // Teşhis için ham yanıtın başını hataya ekle
+  throw new Error(`Geçerli JSON bulunamadı. Ham yanıt başı: ${metin.slice(0, 300)}`);
 }
 
 /* Türe göre denetim */

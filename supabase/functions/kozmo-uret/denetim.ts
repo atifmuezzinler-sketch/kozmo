@@ -7,6 +7,7 @@ const ORTAK_YASAK = [
   "şanslı gündesin", "şanslı gününüz", "aşk kapıda", "sürprizlere açık ol",
   "kendinizi şımart", "kendini şımart", "pozitif enerji",
   "titreşim", "frekans yükselt", "manifest", "çakra", "enerji alanı",
+  // mistik "enerji" kullanımları — gri liste (gündelik "bu enerjiyi işine yatır" serbest)
   "evrene niyet", "kozmik bolluk", "evren sana", "evren size", "evrenin planı",
   "auranı temizle",
   "her şeyi başarabilirsin", "sınır yok", "hayallerinin peşinden koş",
@@ -62,8 +63,13 @@ const B = {
   motto: { min: 4, max: 10 },
   synastry: { min: 22, max: 50 },
   checkin: { min: 12, max: 32 },
-  bugunLimit: 2,
+  bugunLimit: 3, // 2 iken model doğal olarak 3 kullanıp gereksiz retry tetikliyordu
 };
+
+/* "enerji" mistik anlamda mı kullanılmış? (gri liste kontrolü)
+   Serbest: "bu enerjiyi işine yatır" (gündelik/fiziksel)
+   Yasak: "Başak enerjisi", "günün enerjisi", "Ay enerjisi" (mistik güç) */
+const MISTIK_ENERJI = /\b(koç|boğa|ikizler|yengeç|aslan|başak|terazi|akrep|yay|oğlak|kova|balık|ay|güneş|merkür|venüs|mars|gökyüzü|burcun|günün|evren)\w*\s+enerji/i;
 
 export function denetleGunluk(c: any, skorlar?: any): string[] {
   const h: string[] = [];
@@ -72,6 +78,7 @@ export function denetleGunluk(c: any, skorlar?: any): string[] {
   const tum = [gc, an, mo].join(" ");
 
   yasakTara(tum, [ORTAK_YASAK]).forEach((y) => h.push(`Yasaklı kalıp: "${y}"`));
+  if (MISTIK_ENERJI.test(tum)) h.push('"enerji" mistik anlamda kullanılmış (gri liste)');
   if (EMOJI.test(tum)) h.push("Emoji kullanılmış");
   if (/!!/.test(tum)) h.push("Çift ünlem");
   if (mo.includes("!")) h.push("Mottoda ünlem (4.3)");

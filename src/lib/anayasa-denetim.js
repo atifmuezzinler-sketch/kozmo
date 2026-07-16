@@ -67,6 +67,10 @@ export const KRIZ_SINYAL = [
 
 const EMOJI = /[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE0F}]/u;
 
+/* "enerji" mistik anlamda mı? (gri liste — gündelik kullanım serbest)
+   Yasak: "Başak enerjisi", "günün enerjisi" · Serbest: "bu enerjiyi işine yatır" */
+const MISTIK_ENERJI = /\b(koç|boğa|ikizler|yengeç|aslan|başak|terazi|akrep|yay|oğlak|kova|balık|ay|güneş|merkür|venüs|mars|gökyüzü|burcun|günün|evren)\w*\s+enerji/i;
+
 /* ---------- ARAÇLAR ---------- */
 
 const kelimeSay = (s) => s.trim().split(/\s+/).filter(Boolean).length;
@@ -120,6 +124,7 @@ export function denetleGunluk(cikti, skorlar, mod = "api") {
 
   // Yasaklı kalıplar
   yasakTara(tum, [ORTAK_YASAK]).forEach((y) => h.push(`Yasaklı kalıp: "${y}"`));
+  if (MISTIK_ENERJI.test(tum)) h.push('"enerji" mistik anlamda kullanılmış (gri liste)');
   // Emoji ve ünlem
   if (EMOJI.test(tum)) h.push("Emoji kullanılmış");
   if (/!!/.test(tum)) h.push("Çift ünlem");
