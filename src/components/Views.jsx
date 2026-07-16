@@ -47,8 +47,6 @@ export function PusulaView({ profile, today, firstReading }) {
         </p>
       </div>
 
-      <CheckIn today={today} />
-
       <div className="flex gap-2 mb-5 flex-wrap">
         <button className={"kz-tab" + (tab === "daily" ? " on" : "")}
           onClick={() => setTab("daily")}>{TR.tabDaily}</button>
@@ -121,6 +119,7 @@ export function PusulaView({ profile, today, firstReading }) {
       </div>
 
       <AuraCard reading={daily} profile={profile} today={today} />
+      <CheckIn today={today} />
     </div>
   );
 }
