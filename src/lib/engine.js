@@ -1,9 +1,9 @@
 import {
   sunLon, moonLon, planetLon, isRetro, moonPhase, signOf, natalSunLon, EL_AD,
-} from "./astro";
+} from "./astro.js";
 import {
   AURA_COLORS, MOTTOS, GUNUN_CUMLESI, MOON_SENT, CAT_HIGH, CAT_RISKY,
-} from "../content/metinler";
+} from "../content/metinler.js";
 
 export const KATEGORILER = ["aile", "is", "ask", "para"];
 
