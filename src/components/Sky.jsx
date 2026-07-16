@@ -63,9 +63,11 @@ export function SkyStrip({ today }) {
                 }}>{GUN_KISA[d.getDay()]} {d.getDate()}</p>
                 {has && (
                   <span style={{
-                    fontSize: "0.82rem", color: "#d4af37",
+                    fontSize: ev.length > 1 ? "0.62rem" : "0.82rem",
+                    color: "#d4af37", letterSpacing: ev.length > 1 ? "-0.05em" : 0,
                     position: "absolute", top: 18, left: 0, right: 0,
-                  }}>{ev[0].ikon}</span>
+                    whiteSpace: "nowrap",
+                  }}>{ev.map((e) => e.ikon).join("")}</span>
                 )}
                 <div style={{
                   position: "absolute", top: 44 - boy / 2, left: "50%",

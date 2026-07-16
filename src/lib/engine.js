@@ -1,9 +1,9 @@
 import {
   sunLon, moonLon, planetLon, isRetro, moonPhase, signOf, natalSunLon, EL_AD,
-} from "./astro.js";
+} from "./astro";
 import {
   AURA_COLORS, MOTTOS, GUNUN_CUMLESI, MOON_SENT, CAT_HIGH, CAT_RISKY,
-} from "../content/metinler.js";
+} from "../content/metinler";
 
 export const KATEGORILER = ["aile", "is", "ask", "para"];
 
@@ -145,28 +145,31 @@ export function mockSynastry(pA, pB, relType) {
   return { skorlar, genel, analiz: RELDICT[rel][relIdx], sA, sB };
 }
 
-/* 7 günlük gökyüzü olayları — yapılandırılmış */
+/* 7 günlük gökyüzü olayları — yapılandırılmış
+   Olay tespiti: her gün, BİR ÖNCEKİ güne göre değişim kontrol edilir ve
+   olay değişimin gerçekleştiği güne yazılır. (Önceki sürümde olay bir gün
+   erken gösteriliyordu.) */
 export function skyWeek(fromDate) {
   const out = [];
   for (let i = 0; i < 7; i++) {
     const d = new Date(fromDate.getTime() + i * 86400000);
-    const d1 = new Date(d.getTime() + 86400000);
+    const dOnce = new Date(d.getTime() - 86400000);
     const ev = [];
-    const p0 = moonPhase(d).e, p1 = moonPhase(d1).e;
+    const p0 = moonPhase(dOnce).e, p1 = moonPhase(d).e;
     if (p0 < 180 && p1 >= 180)
       ev.push({ ikon: "🌕", metin: "Dolunay", not: "sonuçların görünür olduğu evre" });
     if (p1 < p0)
       ev.push({ ikon: "🌑", metin: "Yeni Ay", not: "yeni başlangıçlar için kapı aralığı" });
-    if (isRetro("merkur", d) !== isRetro("merkur", d1))
-      ev.push(isRetro("merkur", d1)
+    if (isRetro("merkur", dOnce) !== isRetro("merkur", d))
+      ev.push(isRetro("merkur", d)
         ? { ikon: "☿", metin: "Merkür retrosu başlıyor", not: "iletişimde çift kontrol zamanı" }
         : { ikon: "☿", metin: "Merkür retrosu bitiyor", not: "iletişim trafiği normale dönüyor" });
-    if (signOf(sunLon(d)).ad !== signOf(sunLon(d1)).ad)
-      ev.push({ ikon: "☀", metin: `Güneş ${signOf(sunLon(d1)).ad} burcuna geçiyor`, not: "yeni sezon enerjisi" });
-    if (signOf(planetLon("venus", d)).ad !== signOf(planetLon("venus", d1)).ad)
-      ev.push({ ikon: "♀", metin: `Venüs ${signOf(planetLon("venus", d1)).ad} burcuna geçiyor`, not: "aşk göstergeleri hareketleniyor" });
-    if (signOf(planetLon("mars", d)).ad !== signOf(planetLon("mars", d1)).ad)
-      ev.push({ ikon: "♂", metin: `Mars ${signOf(planetLon("mars", d1)).ad} burcuna geçiyor`, not: "enerji ve hız göstergeleri değişiyor" });
+    if (signOf(sunLon(dOnce)).ad !== signOf(sunLon(d)).ad)
+      ev.push({ ikon: "☀", metin: `Güneş ${signOf(sunLon(d)).ad} burcuna geçiyor`, not: "yeni sezon başlıyor" });
+    if (signOf(planetLon("venus", dOnce)).ad !== signOf(planetLon("venus", d)).ad)
+      ev.push({ ikon: "♀", metin: `Venüs ${signOf(planetLon("venus", d)).ad} burcuna geçiyor`, not: "aşk göstergeleri hareketleniyor" });
+    if (signOf(planetLon("mars", dOnce)).ad !== signOf(planetLon("mars", d)).ad)
+      ev.push({ ikon: "♂", metin: `Mars ${signOf(planetLon("mars", d)).ad} burcuna geçiyor`, not: "enerji ve hız göstergeleri değişiyor" });
     out.push({ d, ev });
   }
   return out;
