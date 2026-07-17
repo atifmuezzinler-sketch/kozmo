@@ -16,10 +16,13 @@ import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { TALIMATLAR } from "./talimatlar.ts";
 import { denetleGunluk, denetleSynastry, denetleCheckin, krizSinyaliVar } from "./denetim.ts";
 
-/* Varsayılan model. Test için istekte "model" alanı gönderilebilir:
-   claude-sonnet-5 (varsayılan, $2/$10 intro) | claude-opus-4-8 ($5/$25)
-   claude-haiku-4-5-20251001 ($1/$5) | claude-sonnet-4-6 ($3/$15) */
-const VARSAYILAN_MODEL = "claude-sonnet-5";
+/* Varsayılan model: Opus 4.8.
+   A/B/C testiyle seçildi (17 Tem 2026, aynı girdi, üç model):
+   - Opus 4.8:  8.4 sn · 324 çıktı token · ~$0.012/çağrı · kalite en iyi  ← SEÇİLDİ
+   - Sonnet 5: 36.8 sn · 2512 token (2212'si düşünme) · ~$0.027 · 4x yavaş, 2x pahalı
+   - Haiku 4.5: hızlı ama Türkçe yazım hataları ("başlangışlara", "Merkur") → elendi
+   Test için istekte "model" alanı gönderilebilir. */
+const VARSAYILAN_MODEL = "claude-opus-4-8";
 const IZINLI_MODELLER = [
   "claude-sonnet-5", "claude-opus-4-8",
   "claude-haiku-4-5-20251001", "claude-sonnet-4-6",

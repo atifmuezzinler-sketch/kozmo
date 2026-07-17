@@ -4,6 +4,7 @@ import { TR } from "../i18n/tr";
 import { GLOSS, MOODS } from "../content/metinler";
 import { auraKartiUret } from "../lib/aura-card";
 import { hashStr } from "../lib/engine";
+import { checkinNotu } from "../lib/kozmo-api";
 import { Terim } from "./Common";
 
 export function AuraCard({ reading, profile, today }) {
@@ -79,6 +80,8 @@ export function CheckIn({ today }) {
   const [mood, setMood] = useState(null);
   const [note, setNote] = useState("");
   const [rx, setRx] = useState(null);
+  const [kriz, setKriz] = useState(false);
+  const [yukleniyor, setYukleniyor] = useState(false);
   const dayKey = useMemo(() => today.toISOString().slice(0, 10), [today]);
   return (
     <div className="kz-glass p-5 mb-5 kz-fade">
@@ -97,19 +100,32 @@ export function CheckIn({ today }) {
       </div>
       <input className="kz-input mb-4" placeholder={TR.checkinNote}
         value={note} onChange={(e) => setNote(e.target.value)} />
-      <button className="kz-btn w-full" style={{ opacity: mood ? 1 : 0.4 }}
-        disabled={!mood}
-        onClick={() => {
+      <button className="kz-btn w-full"
+        style={{ opacity: mood && !yukleniyor ? 1 : 0.4 }}
+        disabled={!mood || yukleniyor}
+        onClick={async () => {
           const m = MOODS.find((x) => x.k === mood);
-          setRx(m.rx[hashStr(dayKey + mood) % m.rx.length]);
+          const yerelNot = m.rx[hashStr(dayKey + mood) % m.rx.length];
+          setYukleniyor(true);
+          try {
+            const sonuc = await checkinNotu(mood, note, yerelNot);
+            setKriz(sonuc.kriz);
+            setRx(sonuc.not);
+          } catch {
+            setKriz(false);
+            setRx(yerelNot); // API yoksa yerel havuz
+          }
+          setYukleniyor(false);
         }}>
-        {TR.checkinBtn}
+        {yukleniyor ? TR.checkinLoading : TR.checkinBtn}
       </button>
       {rx && (
         <div className="mt-4 rounded-2xl p-4 kz-fade"
-          style={{ background: "rgba(212,175,55,0.08)", border: "1px solid rgba(212,175,55,0.25)" }}>
-          <p className="kz-eyebrow mb-2">{TR.checkinRx}</p>
-          <p className="text-sm" style={{ lineHeight: 1.7 }}>{rx}</p>
+          style={kriz
+            ? { background: "rgba(143,198,236,0.10)", border: "1px solid rgba(143,198,236,0.30)" }
+            : { background: "rgba(212,175,55,0.08)", border: "1px solid rgba(212,175,55,0.25)" }}>
+          {!kriz && <p className="kz-eyebrow mb-2">{TR.checkinRx}</p>}
+          <p className="text-sm" style={{ lineHeight: 1.75 }}>{rx}</p>
         </div>
       )}
     </div>

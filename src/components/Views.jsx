@@ -1,8 +1,9 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { Home, Briefcase, Heart, Coins, Moon, Lock, Users, ArrowRight, Share2 } from "lucide-react";
 import { TR, GUN_KISA } from "../i18n/tr";
 import { EL_AD, natalSunLon, signOf } from "../lib/astro";
 import { mockEngine, mockSynastry, skorNasil, KATEGORILER } from "../lib/engine";
+import { gunlukOkuma, arkaPlandaHazirla, uyumOkumasi } from "../lib/kozmo-api";
 import { ScoreBar, DateField } from "./Common";
 import { AuraCard, CheckIn } from "./AuraCheckIn";
 import { uyumKartiUret } from "../lib/aura-card";
@@ -12,7 +13,19 @@ const CAT_ICON = { aile: Home, is: Briefcase, ask: Heart, para: Coins };
 export function PusulaView({ profile, today, firstReading }) {
   const [tab, setTab] = useState("daily");
   const [howOpen, setHowOpen] = useState(false);
-  const daily = useMemo(() => mockEngine(profile, today), [profile, today]);
+  /* Önceden üretim: bugünün metni önbellekte varsa anında gelir (0 ms),
+     yoksa yerel havuz gösterilir. Kullanıcı asla beklemez. */
+  const [daily, setDaily] = useState(() => gunlukOkuma(profile, today));
+
+  /* Arka planda: bugün eksikse bugünü, her hâlükârda yarını hazırla.
+     Kullanıcı ekrana bakarken sessizce çalışır. */
+  useEffect(() => {
+    let iptal = false;
+    arkaPlandaHazirla(profile, today).then(() => {
+      if (!iptal) setDaily(gunlukOkuma(profile, today)); // taze metin geldiyse tazele
+    });
+    return () => { iptal = true; };
+  }, [profile, today]);
   const weekly = useMemo(() => {
     const days = Array.from({ length: 7 }, (_, i) => {
       const d = new Date(today.getTime() + i * 86400000);
@@ -130,6 +143,7 @@ export function UyumView({ profile }) {
   const [rel, setRel] = useState("partner");
   const [res, setRes] = useState(null);
   const [kart, setKart] = useState(""); // "" | busy | done | shared
+  const [uyumYukleniyor, setUyumYukleniyor] = useState(false);
   const RELS = [
     { k: "partner", ad: TR.relPartner }, { k: "arkadas", ad: TR.relFriend },
     { k: "aile", ad: TR.relFamily }, { k: "is", ad: TR.relWork },
@@ -170,9 +184,20 @@ export function UyumView({ profile }) {
           ))}
         </div>
         <button className="kz-btn w-full flex items-center justify-center gap-2"
-          style={{ opacity: bSign ? 1 : 0.4 }} disabled={!bSign}
-          onClick={() => setRes(mockSynastry(profile, { birthDate: bDate }, rel))}>
-          <ArrowRight size={16} /> {TR.synCta}
+          style={{ opacity: bSign && !uyumYukleniyor ? 1 : 0.4 }}
+          disabled={!bSign || uyumYukleniyor}
+          onClick={async () => {
+            const yerel = mockSynastry(profile, { birthDate: bDate }, rel);
+            setRes(yerel);           // skorlar anında görünür
+            setUyumYukleniyor(true); // metin API'den gelecek
+            try {
+              const metin = await uyumOkumasi(profile, { birthDate: bDate }, rel, yerel);
+              setRes({ ...yerel, analiz: metin });
+            } catch { /* yerel metin kalır */ }
+            setUyumYukleniyor(false);
+          }}>
+          <ArrowRight size={16} />
+          {uyumYukleniyor ? TR.synLoading : TR.synCta}
         </button>
       </div>
 
