@@ -13,18 +13,15 @@ const CAT_ICON = { aile: Home, is: Briefcase, ask: Heart, para: Coins };
 export function PusulaView({ profile, today, firstReading }) {
   const [tab, setTab] = useState("daily");
   const [howOpen, setHowOpen] = useState(false);
-  /* Önceden üretim: bugünün metni önbellekte varsa anında gelir (0 ms),
-     yoksa yerel havuz gösterilir. Kullanıcı asla beklemez. */
-  const [daily, setDaily] = useState(() => gunlukOkuma(profile, today));
+  /* Önceden üretim: bugünün metni önbellekte varsa (dün hazırlandı) anında
+     gelir; yoksa yerel havuz gösterilir. Kullanıcı asla beklemez.
+     Metin GÜN BOYUNCA SABİT kalır — okurken değişmez. */
+  const daily = useMemo(() => gunlukOkuma(profile, today), [profile, today]);
 
-  /* Arka planda: bugün eksikse bugünü, her hâlükârda yarını hazırla.
-     Kullanıcı ekrana bakarken sessizce çalışır. */
+  /* Arka planda yarının metnini hazırla. Kullanıcı ekrana bakarken sessizce
+     çalışır; ekranda hiçbir şeyi değiştirmez. */
   useEffect(() => {
-    let iptal = false;
-    arkaPlandaHazirla(profile, today).then(() => {
-      if (!iptal) setDaily(gunlukOkuma(profile, today)); // taze metin geldiyse tazele
-    });
-    return () => { iptal = true; };
+    arkaPlandaHazirla(profile, today);
   }, [profile, today]);
   const weekly = useMemo(() => {
     const days = Array.from({ length: 7 }, (_, i) => {

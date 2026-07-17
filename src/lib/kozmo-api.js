@@ -146,14 +146,15 @@ export function gunlukOkuma(profil, tarih) {
 }
 
 /* Arka plan üretimi — kullanıcı ekrana bakarken sessizce çalışır.
-   Bugün eksikse bugünü, her hâlükârda yarını hazırlar. */
+   YALNIZCA YARINI hazırlar. Bugünün metni ekranda duruyor; okurken
+   değişmesi rahatsız edici olurdu. Ayrıca bugünü üretmek israf olurdu:
+   gösterilmeyecek bir metne para ödenmez.
+   Sonuç: ilk gün yerel havuz (anında), ertesi günden itibaren hep API (anında). */
 export async function arkaPlandaHazirla(profil, bugun = new Date()) {
-  const hedefler = [bugun, yarin(bugun)];
-  for (const tarih of hedefler) {
-    if (onbellekOku(profil, tarih)) continue; // zaten var
-    const cikti = await apiCagir("gunluk", girdiHazirla(profil, tarih));
-    if (cikti) onbellekYaz(profil, tarih, cikti);
-  }
+  const hedef = yarin(bugun);
+  if (onbellekOku(profil, hedef)) return; // zaten hazır
+  const cikti = await apiCagir("gunluk", girdiHazirla(profil, hedef));
+  if (cikti) onbellekYaz(profil, hedef, cikti);
 }
 
 /* Uyum okuması — kullanıcı butona bastığında çağrılır.
