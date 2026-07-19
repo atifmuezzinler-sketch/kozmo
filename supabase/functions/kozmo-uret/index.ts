@@ -32,6 +32,33 @@ const IZINLI_MODELLER = [
    çıktı zaten ~350 token, fazlası faturaya yansımaz (yalnızca üretilen sayılır). */
 const MAX_TOKENS = 4000;
 
+/* ---------- RATE LIMITING (fatura koruması) ----------
+   IP başına saatlik ve günlük kova. Önceden üretim mimarisi günde tek çağrı
+   yaptığı için normal kullanıcı bu sınıra değmez; yalnızca kötüye kullanımı keser.
+   Bellek-içi; Edge izolatı yeniden başlarsa sıfırlanır — kaba ama etkili ilk savunma. */
+const KOVA = new Map<string, { saat: number[]; gun: number[] }>();
+const SAAT_LIMIT = 20;   // bir IP saatte en fazla 20 çağrı
+const GUN_LIMIT = 100;   // bir IP günde en fazla 100 çağrı
+const SAAT_MS = 3600_000;
+const GUN_MS = 86_400_000;
+
+function rateLimit(ip: string): { izin: boolean; kalan: number } {
+  const simdi = Date.now();
+  const kayit = KOVA.get(ip) ?? { saat: [], gun: [] };
+  kayit.saat = kayit.saat.filter((t) => simdi - t < SAAT_MS);
+  kayit.gun = kayit.gun.filter((t) => simdi - t < GUN_MS);
+  if (kayit.saat.length >= SAAT_LIMIT || kayit.gun.length >= GUN_LIMIT) {
+    KOVA.set(ip, kayit);
+    return { izin: false, kalan: 0 };
+  }
+  kayit.saat.push(simdi);
+  kayit.gun.push(simdi);
+  KOVA.set(ip, kayit);
+  // Bellek şişmesini önle: 5000 IP üstünde en eskiyi at
+  if (KOVA.size > 5000) KOVA.delete(KOVA.keys().next().value);
+  return { izin: true, kalan: GUN_LIMIT - kayit.gun.length };
+}
+
 const CORS = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
@@ -142,6 +169,14 @@ Deno.serve(async (req: Request) => {
 
   const apiKey = Deno.env.get("ANTHROPIC_API_KEY");
   if (!apiKey) return json({ hata: "ANTHROPIC_API_KEY tanımlı değil" }, 500);
+
+  // Rate limit — IP başına (proxy başlıklarından, yoksa "bilinmeyen")
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0].trim() ||
+             req.headers.get("cf-connecting-ip") || "bilinmeyen";
+  const rl = rateLimit(ip);
+  if (!rl.izin) {
+    return json({ hata: "Çok fazla istek. Lütfen sonra tekrar deneyin.", kod: "rate_limit" }, 429);
+  }
 
   let govde: any;
   try {

@@ -99,10 +99,24 @@ export function girdiHazirla(profil, tarih) {
   };
 }
 
+/* İstemci tarafı rate limit koruması: sunucu 429 dönerse bir saat boyunca
+   tekrar denemeyiz — hem sunucuyu hem kullanıcının pilini korur. */
+const RL_ANAHTAR = "kozmo_rl";
+function rateLimitIsaretle() {
+  try { localStorage.setItem(RL_ANAHTAR, String(Date.now() + 3600_000)); } catch { /* geç */ }
+}
+function rateLimitAktif() {
+  try {
+    const bitis = Number(localStorage.getItem(RL_ANAHTAR) || 0);
+    return Date.now() < bitis;
+  } catch { return false; }
+}
+
 /* ---------- API ÇAĞRISI ---------- */
 
 async function apiCagir(tur, girdi, zamanAsimi = 25000) {
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return null; // yapılandırılmamış
+  if (rateLimitAktif()) return null; // sunucu son çağrıda 429 dedi — boşuna deneme
 
   const kontrol = new AbortController();
   const sayac = setTimeout(() => kontrol.abort(), zamanAsimi);
@@ -116,7 +130,11 @@ async function apiCagir(tur, girdi, zamanAsimi = 25000) {
       body: JSON.stringify({ tur, girdi }),
       signal: kontrol.signal,
     });
-    if (!yanit.ok) return null;
+    // Rate limit ya da başka hata → yerel havuz devreye girer
+    if (!yanit.ok) {
+      if (yanit.status === 429) rateLimitIsaretle();
+      return null;
+    }
     const veri = await yanit.json();
     return veri.basarili ? veri.cikti : null;
   } catch {
