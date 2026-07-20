@@ -62,6 +62,8 @@ export const TR = {
   relWork: "İş",
   synCta: "Uyumu hesapla",
   synLoading: "Gökyüzü okunuyor…",
+  begeniSoru: "Bugün yerine oturduysa:",
+  begeniTesekkur: "Teşekkürler — not aldık.",
   synShare: "Uyum kartını paylaş",
   synDone: "Uyum kartın indirildi ✨",
   synShared: "Uyum kartın paylaşıldı ✨",

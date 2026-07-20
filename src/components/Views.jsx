@@ -3,7 +3,7 @@ import { Home, Briefcase, Heart, Coins, Moon, Lock, Users, ArrowRight, Share2 } 
 import { TR, GUN_KISA } from "../i18n/tr";
 import { EL_AD, natalSunLon, signOf } from "../lib/astro";
 import { mockEngine, mockSynastry, skorNasil, KATEGORILER } from "../lib/engine";
-import { gunlukOkuma, arkaPlandaHazirla, uyumOkumasi } from "../lib/kozmo-api";
+import { gunlukOkuma, arkaPlandaHazirla, uyumOkumasi, begeniGonder } from "../lib/kozmo-api";
 import { ScoreBar, DateField } from "./Common";
 import { AuraCard, CheckIn } from "./AuraCheckIn";
 import { uyumKartiUret } from "../lib/aura-card";
@@ -126,6 +126,7 @@ export function PusulaView({ profile, today, firstReading }) {
           <Moon size={12} className="kz-gold" /> {TR.analysisTitle}
         </p>
         <p className="text-sm" style={{ lineHeight: 1.85 }}>{daily.analiz}</p>
+        <OkumaBegeni tur="gunluk" today={today} profile={profile} />
       </div>
 
       <AuraCard reading={daily} profile={profile} today={today} />
@@ -250,6 +251,39 @@ export function UyumView({ profile }) {
           )}
         </div>
       )}
+    </div>
+  );
+}
+
+/* Tek dokunuş kalp — sessiz, nadir, baskısız. Basılınca kaybolur, cihazda hatırlanır. */
+function OkumaBegeni({ tur, today, profile }) {
+  const anahtar = `kozmo_begeni_${tur}_${today.toISOString().slice(0, 10)}`;
+  const [basildi, setBasildi] = useState(() => {
+    try { return localStorage.getItem(anahtar) === "1"; } catch { return false; }
+  });
+  if (basildi) {
+    return (
+      <p className="kz-dim mt-4 text-center kz-fade" style={{ fontSize: "0.75rem" }}>
+        {TR.begeniTesekkur}
+      </p>
+    );
+  }
+  return (
+    <div className="mt-4 flex items-center justify-center gap-2 kz-fade">
+      <span className="kz-dim" style={{ fontSize: "0.78rem" }}>{TR.begeniSoru}</span>
+      <button
+        aria-label={TR.begeniSoru}
+        onClick={() => {
+          try { localStorage.setItem(anahtar, "1"); } catch { /* geç */ }
+          setBasildi(true);
+          begeniGonder(tur, today, profile);
+        }}
+        style={{
+          background: "none", border: "none", cursor: "pointer", padding: 4,
+          color: "#e08aab", display: "inline-flex", alignItems: "center",
+        }}>
+        <Heart size={18} />
+      </button>
     </div>
   );
 }

@@ -185,6 +185,35 @@ Deno.serve(async (req: Request) => {
     return json({ hata: "Geçersiz JSON gövdesi" }, 400);
   }
 
+  /* ---------- GERİ BİLDİRİM UCU (tek dokunuş kalp) ---------- */
+  if (govde?.islem === "begeni") {
+    const url = Deno.env.get("SUPABASE_URL");
+    const servis = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+    if (!url || !servis) return json({ hata: "Veritabanı yapılandırılmamış" }, 500);
+    try {
+      const kayit = {
+        tur: govde.tur || "gunluk",
+        tarih: govde.tarih || new Date().toISOString().slice(0, 10),
+        burc: govde.burc ?? null,
+        element: govde.element ?? null,
+        cihaz_id: govde.cihaz_id ?? null,
+      };
+      const r = await fetch(`${url}/rest/v1/geri_bildirim`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          apikey: servis,
+          Authorization: `Bearer ${servis}`,
+          Prefer: "return=minimal",
+        },
+        body: JSON.stringify(kayit),
+      });
+      return json({ basarili: r.ok });
+    } catch {
+      return json({ basarili: false }, 200); // sessiz başarısızlık — kullanıcı etkilenmez
+    }
+  }
+
   const { tur, girdi, model: istenenModel } = govde ?? {};
   if (!tur || !girdi) return json({ hata: "'tur' ve 'girdi' zorunlu" }, 400);
   if (!TALIMATLAR[tur]) return json({ hata: `Bilinmeyen tür: ${tur}` }, 400);
