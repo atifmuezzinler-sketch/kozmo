@@ -28,7 +28,20 @@ export default function App() {
   const kaydet = (p) => {
     setProfile(p);
     setFirstReading(true);
-    try { localStorage.setItem(SAKLA, JSON.stringify(p)); } catch { /* özel mod */ }
+    // Yalnızca üye olan cihaza kaydedilir; "sadece bakayım" diyen geçicidir.
+    if (p.uye) {
+      try { localStorage.setItem(SAKLA, JSON.stringify(p)); } catch { /* özel mod */ }
+    } else {
+      try { localStorage.removeItem(SAKLA); } catch { /* özel mod */ }
+    }
+  };
+  /* "Sadece bakayım" diyen kullanıcı sonradan üye olmak isterse:
+     mevcut profili üyeye çevirip cihaza kaydeder. */
+  const uyeOl = () => {
+    if (!profile) return;
+    const uyeProfil = { ...profile, uye: true };
+    setProfile(uyeProfil);
+    try { localStorage.setItem(SAKLA, JSON.stringify(uyeProfil)); } catch { /* özel mod */ }
   };
   const sifirla = () => {
     setProfile(null);
@@ -55,6 +68,12 @@ export default function App() {
                 {profile.sign.sembol} {profile.sign.ad}
                 {profile.rising && <span> · Yük. {profile.rising.ad}</span>}
               </span>
+              {!profile.uye && (
+                <button className="kz-chip" style={{ fontSize: 11, padding: "4px 10px", color: "#d4af37" }}
+                  onClick={uyeOl}>
+                  {TR.becomeMemberShort}
+                </button>
+              )}
               <button className="kz-chip" style={{ fontSize: 11, padding: "4px 10px" }}
                 onClick={sifirla}>
                 {TR.edit}
@@ -77,7 +96,7 @@ export default function App() {
 
           <SkyStrip today={today} />
           {mode === "pusula"
-            ? <PusulaView profile={profile} today={today} firstReading={firstReading} />
+            ? <PusulaView profile={profile} today={today} firstReading={firstReading} onUyeOl={uyeOl} />
             : <UyumView profile={profile} />}
 
           <p className="text-center text-xs kz-dim mt-8 mb-1">{TR.disclaimer}</p>

@@ -30,11 +30,11 @@ export default function Onboarding({ onDone }) {
 
   const ready = birthDate && sign && cityText.trim().length >= 2;
 
-  const submit = () => {
+  const submit = (uye) => {
     if (!ready) return;
     setPhase(1);
     setTimeout(() => {
-      onDone({ birthDate, cityName: cityText.trim(), city, time, sign, rising });
+      onDone({ birthDate, cityName: cityText.trim(), city, time, sign, rising, uye });
     }, 1600);
   };
 
@@ -126,10 +126,25 @@ export default function Onboarding({ onDone }) {
         )}
       </div>
 
-      <button className="kz-btn w-full flex items-center justify-center gap-2 mb-6"
-        style={{ opacity: ready ? 1 : 0.4 }} onClick={submit} disabled={!ready}>
-        <Sparkles size={16} /> {TR.ctaStart}
+      <button className="kz-btn w-full flex items-center justify-center gap-2 mb-3"
+        style={{ opacity: ready ? 1 : 0.4 }} onClick={() => submit(true)} disabled={!ready}>
+        <Sparkles size={16} /> {TR.ctaSaveStart}
       </button>
+
+      <button
+        className="w-full text-center mb-2"
+        style={{
+          opacity: ready ? 0.75 : 0.3, background: "none", border: "none",
+          color: "#cfc4e6", fontSize: "0.82rem", cursor: ready ? "pointer" : "default",
+          textDecoration: "underline", textUnderlineOffset: 3,
+        }}
+        onClick={() => submit(false)} disabled={!ready}>
+        {TR.ctaJustLook}
+      </button>
+
+      <p className="text-center kz-dim mb-6" style={{ fontSize: "0.72rem", lineHeight: 1.5 }}>
+        {TR.memberHint}
+      </p>
 
       <SkyStrip today={today} />
 

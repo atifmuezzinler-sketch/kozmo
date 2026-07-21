@@ -10,8 +10,9 @@ import { uyumKartiUret } from "../lib/aura-card";
 
 const CAT_ICON = { aile: Home, is: Briefcase, ask: Heart, para: Coins };
 
-export function PusulaView({ profile, today, firstReading }) {
+export function PusulaView({ profile, today, firstReading, onUyeOl }) {
   const [tab, setTab] = useState("daily");
+  const [uyeUyari, setUyeUyari] = useState(false);
   const [howOpen, setHowOpen] = useState(false);
   /* Önceden üretim: bugünün metni önbellekte varsa (dün hazırlandı) anında
      gelir; yoksa yerel havuz gösterilir. Kullanıcı asla beklemez.
@@ -38,7 +39,31 @@ export function PusulaView({ profile, today, firstReading }) {
     return { agg, days };
   }, [profile, today]);
 
-  const skorlar = tab === "daily" ? daily.skorlar : weekly.agg;
+  /* Aylık (30 gün) ve yıllık (12 aylık örnekleme) ortalamalar — yalnızca üyeye açık.
+     Yıllıkta her günü hesaplamak yerine ayda bir gün örnekleyerek performans korunur. */
+  const donemsel = useMemo(() => {
+    if (!profile.uye) return { monthly: null, yearly: null };
+    const ort = (adet, adimGun) => {
+      const agg = {};
+      for (const k of KATEGORILER) agg[k] = { sans: 0, risk: 0 };
+      for (let i = 0; i < adet; i++) {
+        const r = mockEngine(profile, new Date(today.getTime() + i * adimGun * 86400000));
+        for (const k of KATEGORILER) { agg[k].sans += r.skorlar[k].sans; agg[k].risk += r.skorlar[k].risk; }
+      }
+      for (const k of KATEGORILER) {
+        agg[k].sans = Math.round(agg[k].sans / adet);
+        agg[k].risk = Math.round(agg[k].risk / adet);
+      }
+      return agg;
+    };
+    return { monthly: ort(30, 1), yearly: ort(12, 30) };
+  }, [profile, today]);
+
+  const skorlar =
+    tab === "daily" ? daily.skorlar :
+    tab === "weekly" ? weekly.agg :
+    tab === "monthly" ? donemsel.monthly :
+    donemsel.yearly;
 
   return (
     <div>
@@ -62,14 +87,34 @@ export function PusulaView({ profile, today, firstReading }) {
           onClick={() => setTab("daily")}>{TR.tabDaily}</button>
         <button className={"kz-tab" + (tab === "weekly" ? " on" : "")}
           onClick={() => setTab("weekly")}>{TR.tabWeekly}</button>
-        <button className="kz-tab locked" title={TR.soon}>
-          <Lock size={11} className="inline mr-1" />{TR.tabMonthly} · {TR.soon}
-        </button>
-        <button className="kz-tab locked" title={TR.soon}>
-          <Lock size={11} className="inline mr-1" />{TR.tabYearly} · {TR.soon}
-        </button>
+        {profile.uye ? (
+          <>
+            <button className={"kz-tab" + (tab === "monthly" ? " on" : "")}
+              onClick={() => setTab("monthly")}>{TR.tabMonthly}</button>
+            <button className={"kz-tab" + (tab === "yearly" ? " on" : "")}
+              onClick={() => setTab("yearly")}>{TR.tabYearly}</button>
+          </>
+        ) : (
+          <>
+            <button className="kz-tab locked" onClick={() => setUyeUyari(true)} title={TR.memberOnly}>
+              <Lock size={11} className="inline mr-1" />{TR.tabMonthly}
+            </button>
+            <button className="kz-tab locked" onClick={() => setUyeUyari(true)} title={TR.memberOnly}>
+              <Lock size={11} className="inline mr-1" />{TR.tabYearly}
+            </button>
+          </>
+        )}
       </div>
+
+      {uyeUyari && !profile.uye && (
+        <div className="kz-glass p-4 mb-5 kz-fade" style={{ border: "1px solid rgba(212,175,55,0.3)" }}>
+          <p className="text-sm mb-3" style={{ lineHeight: 1.7 }}>{TR.memberUpsell}</p>
+          <button className="kz-btn w-full" onClick={onUyeOl}>{TR.becomeMember}</button>
+        </div>
+      )}
       {tab === "weekly" && <p className="text-xs kz-dim mb-4">{TR.weeklyAvg}</p>}
+      {tab === "monthly" && <p className="text-xs kz-dim mb-4">{TR.monthlyNote}</p>}
+      {tab === "yearly" && <p className="text-xs kz-dim mb-4">{TR.yearlyNote}</p>}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-2">
         {KATEGORILER.map((k) => {
