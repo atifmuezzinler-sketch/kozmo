@@ -144,44 +144,6 @@ async function apiCagir(tur, girdi, zamanAsimi = 25000) {
   }
 }
 
-/* Tek dokunuş beğeni — anonim, sessiz. Başarısız olursa kullanıcı etkilenmez. */
-export async function begeniGonder(tur, tarih, profil) {
-  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return;
-  try {
-    await fetch(`${SUPABASE_URL}/functions/v1/kozmo-uret`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
-      },
-      body: JSON.stringify({
-        islem: "begeni",
-        tur,
-        tarih: gunAnahtari(tarih),
-        burc: profil?.sign?.ad ?? null,
-        element: profil?.sign?.el ?? null,
-        cihaz_id: cihazImza(),
-      }),
-    });
-  } catch {
-    /* sessiz — beğeni kaybı kritik değil */
-  }
-}
-
-/* Anonim cihaz imzası — kişi kimliği değil, sadece tekil sayım için */
-function cihazImza() {
-  try {
-    let id = localStorage.getItem("kozmo_cihaz");
-    if (!id) {
-      id = "c_" + Math.random().toString(36).slice(2) + Date.now().toString(36);
-      localStorage.setItem("kozmo_cihaz", id);
-    }
-    return id;
-  } catch {
-    return null;
-  }
-}
-
 /* ---------- ANA GİRİŞ NOKTALARI ---------- */
 
 /* Günün okuması — HER ZAMAN anında döner.
