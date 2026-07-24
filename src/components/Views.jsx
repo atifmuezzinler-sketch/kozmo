@@ -239,7 +239,14 @@ export function UyumView({ profile }) {
             setUyumYukleniyor(false);
           }}>
           <ArrowRight size={16} />
-          {uyumYukleniyor ? TR.synLoading : TR.synCta}
+          {uyumYukleniyor ? (
+            <>
+              <span>{TR.synLoading}</span>
+              <span className="inline-flex items-center gap-1" aria-hidden="true">
+                <i className="kz-dot" /><i className="kz-dot" /><i className="kz-dot" />
+              </span>
+            </>
+          ) : TR.synCta}
         </button>
       </div>
 
@@ -265,7 +272,15 @@ export function UyumView({ profile }) {
             ))}
           </div>
           <p className="kz-eyebrow mb-2">{TR.synAnalysis}</p>
-          <p className="text-sm" style={{ lineHeight: 1.85 }}>{res.analiz}</p>
+          {uyumYukleniyor ? (
+            <div role="status" aria-live="polite" className="pt-1">
+              <div className="kz-skeleton mb-2" style={{ width: "94%" }} />
+              <div className="kz-skeleton mb-2" style={{ width: "86%" }} />
+              <div className="kz-skeleton" style={{ width: "62%" }} />
+            </div>
+          ) : (
+            <p className="text-sm" style={{ lineHeight: 1.85 }}>{res.analiz}</p>
+          )}
           <button onClick={async () => {
             if (kart === "busy") return;
             setKart("busy");

@@ -107,13 +107,14 @@ export function CheckIn({ today }) {
       </div>
       <input className="kz-input mb-4" placeholder={TR.checkinNote}
         value={note} onChange={(e) => setNote(e.target.value)} />
-      <button className="kz-btn w-full"
+      <button className="kz-btn w-full flex items-center justify-center gap-2"
         style={{ opacity: mood && !yukleniyor ? 1 : 0.4 }}
         disabled={!mood || yukleniyor}
         onClick={async () => {
           const m = MOODS.find((x) => x.k === mood);
           const yerelNot = m.rx[hashStr(dayKey + mood) % m.rx.length];
           setYukleniyor(true);
+          setRx(null); // eski not kalmasın; yerini iskelet alsın
           try {
             const sonuc = await checkinNotu(mood, note, yerelNot);
             setKriz(sonuc.kriz);
@@ -124,9 +125,28 @@ export function CheckIn({ today }) {
           }
           setYukleniyor(false);
         }}>
-        {yukleniyor ? TR.checkinLoading : TR.checkinBtn}
+        {yukleniyor ? (
+          <>
+            <span>{TR.checkinLoading}</span>
+            <span className="inline-flex items-center gap-1" aria-hidden="true">
+              <i className="kz-dot" /><i className="kz-dot" /><i className="kz-dot" />
+            </span>
+          </>
+        ) : TR.checkinBtn}
       </button>
-      {rx && (
+
+      {/* Metnin geleceği yeri şimdiden tutan iskelet — bekleme görünür olsun */}
+      {yukleniyor && (
+        <div className="mt-4 rounded-2xl p-4 kz-fade" role="status" aria-live="polite"
+          style={{ background: "rgba(212,175,55,0.05)", border: "1px solid rgba(212,175,55,0.16)" }}>
+          <p className="kz-eyebrow mb-3">{TR.checkinPreparing}</p>
+          <div className="kz-skeleton mb-2" style={{ width: "92%" }} />
+          <div className="kz-skeleton mb-2" style={{ width: "78%" }} />
+          <div className="kz-skeleton" style={{ width: "56%" }} />
+        </div>
+      )}
+
+      {rx && !yukleniyor && (
         <div className="mt-4 rounded-2xl p-4 kz-fade"
           style={kriz
             ? { background: "rgba(143,198,236,0.10)", border: "1px solid rgba(143,198,236,0.30)" }
