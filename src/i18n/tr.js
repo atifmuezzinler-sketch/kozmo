@@ -47,7 +47,7 @@ export const TR = {
   risk: "Risk",
   weeklyAvg: "7 günlük ortalama",
   skyWeek: "Önümüzdeki 7 gün",
-  calmWeek: "Bu hafta gökyüzü sakin — enerji birikimi için ideal.",
+  calmWeek: "Bu hafta gökyüzü sakin — zemin hazırlamak için ideal.",
   auraTitle: "Bugünkü Aura'n",
   auraColor: "Günün rengi",
   auraShare: "Aura'nı paylaş",

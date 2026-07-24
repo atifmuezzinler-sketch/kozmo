@@ -342,7 +342,7 @@ export const GLOSS = {
     "Yeni Ay": "Güneş ile Ay aynı hizada; başlangıçların evresi.",
     "Büyüyen Hilal": "Ay büyümeye başladı; niyetleri besleme zamanı.",
     "İlk Dördün": "Ayın yarısı aydınlık; ilk engeller ve kararlar evresi.",
-    "Şişkin Ay": "Dolunaya yaklaşırken enerji birikir; son rötuş zamanı.",
+    "Şişkin Ay": "Ay dolmaya yakın; son rötuş ve ince ayar evresi.",
     "Dolunay": "Ay tam karşıda ve dopdolu; sonuçların görünür olduğu evre.",
     "Küçülen Şişkin": "Dolunay sonrası; hasat ve paylaşma evresi.",
     "Son Dördün": "Ay küçülüyor; bırakma ve sadeleşme zamanı.",

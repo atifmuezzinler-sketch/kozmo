@@ -4,8 +4,9 @@
 
 import { mockEngine, mockSynastry, elRel } from "../src/lib/engine.js";
 import { natalSunLon, signOf, CITIES, ascendant } from "../src/lib/astro.js";
-import { MOODS } from "../src/content/metinler.js";
-import { denetleGunluk, denetleSynastry, denetleCheckin, BANTLAR } from "../src/lib/anayasa-denetim.js";
+import { MOODS, GLOSS } from "../src/content/metinler.js";
+import { TR } from "../src/i18n/tr.js";
+import { denetleGunluk, denetleSynastry, denetleCheckin, BANTLAR, ORTAK_YASAK } from "../src/lib/anayasa-denetim.js";
 
 const YESIL = "\x1b[32m", KIRMIZI = "\x1b[31m", SARI = "\x1b[33m", SIFIR = "\x1b[0m";
 let toplamHata = 0, toplamTest = 0;
@@ -82,6 +83,29 @@ for (const t of krizTestleri) {
     }
   }
 }
+
+/* 5. STATİK ARAYÜZ METİNLERİ — anayasa yalnızca üretilen içeriğe değil,
+   Kozmo'nun her sesine uygulanır. Sözlük tanımları ve arayüz metinleri
+   de taranır (24 Tem 2026'da burada iki "mistik enerji" ihlali bulundu). */
+console.log("5. Statik arayüz metinleri (sözlük + arayüz)");
+const MISTIK_UI = /\b(koç|boğa|ikizler|yengeç|aslan|başak|terazi|akrep|yay|oğlak|kova|balık|ay|güneş|merkür|venüs|mars|gökyüzü|burcun|günün|evren)\w*\s+enerji|enerji\s+(birik|akış|aktar|yüksel)/i;
+const kucultUI = (x) => x.toLocaleLowerCase("tr-TR");
+function statikTara(kaynak, ad) {
+  const gez = (obj, yol = "") => {
+    for (const [k, v] of Object.entries(obj || {})) {
+      if (typeof v === "string") {
+        const hatalar = [];
+        for (const y of ORTAK_YASAK)
+          if (kucultUI(v).includes(kucultUI(y))) hatalar.push(`Yasaklı kalıp: "${y}"`);
+        if (MISTIK_UI.test(v)) hatalar.push('"enerji" mistik anlamda kullanılmış');
+        rapor(`${ad}.${yol}${k}`, hatalar);
+      } else if (v && typeof v === "object") gez(v, `${yol}${k}.`);
+    }
+  };
+  gez(kaynak);
+}
+statikTara(TR, "TR");
+statikTara(GLOSS, "GLOSS");
 
 /* SONUÇ */
 console.log(`\n${"─".repeat(48)}`);
