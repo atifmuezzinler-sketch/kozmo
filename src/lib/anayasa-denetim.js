@@ -101,6 +101,7 @@ export const BANTLAR = {
     motto: { min: 4, max: 10, ad: "Motto" },
     synastry: { min: 22, max: 50, ad: "Uyum okuması" },
     checkin: { min: 12, max: 32, ad: "Bugünün notu" },
+    aura_notu: { min: 9, max: 16, ad: "Aura notu" },
     bugunLimit: 2,
   },
   yerel: {
@@ -109,6 +110,7 @@ export const BANTLAR = {
     motto: { min: 4, max: 12, ad: "Motto" },
     synastry: { min: 20, max: 50, ad: "Uyum okuması" },
     checkin: { min: 10, max: 32, ad: "Bugünün notu" },
+    aura_notu: { min: 6, max: 16, ad: "Aura notu" },
     bugunLimit: 3,
   },
 };
@@ -119,8 +121,8 @@ const bant = (mod) => BANTLAR[mod] || BANTLAR.api;
 export function denetleGunluk(cikti, skorlar, mod = "api") {
   const B = bant(mod);
   const h = [];
-  const { gunun_cumlesi = "", analiz = "", motto = "" } = cikti || {};
-  const tum = [gunun_cumlesi, analiz, motto].join(" ");
+  const { gunun_cumlesi = "", analiz = "", motto = "", aura_notu = "" } = cikti || {};
+  const tum = [gunun_cumlesi, analiz, motto, aura_notu].join(" ");
 
   // Yasaklı kalıplar
   yasakTara(tum, [ORTAK_YASAK]).forEach((y) => h.push(`Yasaklı kalıp: "${y}"`));
@@ -137,6 +139,14 @@ export function denetleGunluk(cikti, skorlar, mod = "api") {
     h.push(`Analiz ${ak} kelime (${B.analiz.min}-${B.analiz.max})`);
   if (mk < B.motto.min || mk > B.motto.max)
     h.push(`Motto ${mk} kelime (${B.motto.min}-${B.motto.max})`);
+  if (aura_notu) {
+    const ak2 = kelimeSay(aura_notu);
+    if (ak2 < B.aura_notu.min || ak2 > B.aura_notu.max)
+      h.push(`Aura notu ${ak2} kelime (${B.aura_notu.min}-${B.aura_notu.max})`);
+    // Rengi tarif etmemeli, günü anlatmalı (4.6)
+    if (/\b(reng|renk)\w*(dir|dır|tir|tır)\b|\b(reng|renk)\w*\s+(\S+\s+){0,3}(temsil|simgele|anlamına)/i.test(aura_notu))
+      h.push("Aura notu rengi tarif ediyor, günü anlatmıyor (4.6)");
+  }
   // Motto kuralları (4.3)
   if (motto && !motto.trim().endsWith(".")) h.push("Motto nokta ile bitmiyor");
   if (/\bsen\b|\bsana\b|\bsenin\b|\bseni\b/i.test(motto)) h.push("Motto kişisel — 'sen' demez (4.3)");

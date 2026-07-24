@@ -63,6 +63,7 @@ const B = {
   motto: { min: 4, max: 10 },
   synastry: { min: 22, max: 50 },
   checkin: { min: 12, max: 32 },
+  aura_notu: { min: 9, max: 16 },
   bugunLimit: 3, // 2 iken model doğal olarak 3 kullanıp gereksiz retry tetikliyordu
 };
 
@@ -73,9 +74,10 @@ const MISTIK_ENERJI = /\b(koç|boğa|ikizler|yengeç|aslan|başak|terazi|akrep|y
 
 export function denetleGunluk(c: any, skorlar?: any): string[] {
   const h: string[] = [];
-  const gc = c?.gunun_cumlesi ?? "", an = c?.analiz ?? "", mo = c?.motto ?? "";
-  if (!gc || !an || !mo) return ["Eksik alan: gunun_cumlesi, analiz veya motto yok"];
-  const tum = [gc, an, mo].join(" ");
+  const gc = c?.gunun_cumlesi ?? "", an = c?.analiz ?? "", mo = c?.motto ?? "", au = c?.aura_notu ?? "";
+  if (!gc || !an || !mo || !au)
+    return ["Eksik alan: gunun_cumlesi, analiz, motto veya aura_notu yok"];
+  const tum = [gc, an, mo, au].join(" ");
 
   yasakTara(tum, [ORTAK_YASAK]).forEach((y) => h.push(`Yasaklı kalıp: "${y}"`));
   if (MISTIK_ENERJI.test(tum)) h.push('"enerji" mistik anlamda kullanılmış (gri liste)');
@@ -90,6 +92,11 @@ export function denetleGunluk(c: any, skorlar?: any): string[] {
     h.push(`Analiz ${ak} kelime (${B.analiz.min}-${B.analiz.max})`);
   if (mk < B.motto.min || mk > B.motto.max)
     h.push(`Motto ${mk} kelime (${B.motto.min}-${B.motto.max})`);
+  const auk = kelimeSay(au);
+  if (auk < B.aura_notu.min || auk > B.aura_notu.max)
+    h.push(`Aura notu ${auk} kelime (${B.aura_notu.min}-${B.aura_notu.max})`);
+  if (/\b(reng|renk)\w*(dir|dır|tir|tır)\b|\b(reng|renk)\w*\s+(\S+\s+){0,3}(temsil|simgele|anlamına)/i.test(au))
+    h.push("Aura notu rengi tarif ediyor, günü anlatmıyor (4.6)");
 
   if (!mo.trim().endsWith(".")) h.push("Motto nokta ile bitmiyor");
   if (/\bsen\b|\bsana\b|\bsenin\b|\bseni\b/i.test(mo)) h.push("Motto kişisel (4.3)");

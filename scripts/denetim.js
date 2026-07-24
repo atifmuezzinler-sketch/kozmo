@@ -29,7 +29,7 @@ for (const [el, bd] of Object.entries(ornekler)) {
     const g = new Date(Date.UTC(2026, 6, 15 + i));
     const r = mockEngine(p, g);
     rapor(`${el} · gün ${i + 1}`,
-      denetleGunluk({ gunun_cumlesi: r.gunun_cumlesi, analiz: r.analiz, motto: r.motto }, r.skorlar, "yerel"));
+      denetleGunluk({ gunun_cumlesi: r.gunun_cumlesi, analiz: r.analiz, motto: r.motto, aura_notu: r.aura_notu }, r.skorlar, "yerel"));
   }
 }
 

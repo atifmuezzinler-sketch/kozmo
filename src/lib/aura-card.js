@@ -85,7 +85,7 @@ async function disariVer(c, dosyaAdi) {
   return "indirildi";
 }
 
-export async function auraKartiUret({ renkHex, renkAd, motto, sign, tarihStr }) {
+export async function auraKartiUret({ renkHex, renkAd, motto, auraNotu, sign, tarihStr }) {
   await document.fonts.ready;
   const W = 1080, H = 1920;
   const c = document.createElement("canvas");
@@ -118,10 +118,21 @@ export async function auraKartiUret({ renkHex, renkAd, motto, sign, tarihStr }) 
   x.font = "600 46px Montserrat, sans-serif";
   x.fillText(renkAd, W / 2, 1205);
 
+  /* Aura notu: rengi güne bağlayan satır. Kartı gören yabancı için de
+     anlamlı olduğundan renk adının hemen altında durur. */
+  let mottoY = 1390;
+  if (auraNotu) {
+    x.fillStyle = "#bdb2d4";
+    x.font = "400 33px Montserrat, sans-serif";
+    const notSatir = satirSar(x, auraNotu, 840);
+    notSatir.forEach((l, i) => x.fillText(l, W / 2, 1288 + i * 46));
+    mottoY = 1288 + notSatir.length * 46 + 78;
+  }
+
   x.fillStyle = "#ece6f5";
   x.font = "300 50px Montserrat, sans-serif";
   const satirlar = satirSar(x, "\u201C" + motto + "\u201D", 880);
-  const bassY = 1390 - ((satirlar.length - 1) * 34);
+  const bassY = mottoY - ((satirlar.length - 1) * 34);
   satirlar.forEach((l, i) => x.fillText(l, W / 2, bassY + i * 68));
 
   kunye(x, W, `${sign.sembol} ${sign.ad} · ${tarihStr}`, "Aura · by Kozmo");

@@ -96,6 +96,7 @@ export function girdiHazirla(profil, tarih) {
       merkur_retro: isRetro("merkur", tarih),
     },
     skorlar: yerel.skorlar,
+    aura_rengi_adi: yerel.aura_adi, // kartın başlığı — nota bağlam verir
   };
 }
 
@@ -157,6 +158,8 @@ export function gunlukOkuma(profil, tarih) {
       gunun_cumlesi: onbellek.gunun_cumlesi,
       analiz: onbellek.analiz,
       motto: onbellek.motto,
+      // API notu varsa onu kullan; yoksa yerel havuzunki kalır
+      aura_notu: onbellek.aura_notu || yerel.aura_notu,
       kaynak: "api",
     };
   }

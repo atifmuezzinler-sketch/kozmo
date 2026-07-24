@@ -21,6 +21,7 @@ export function AuraCard({ reading, profile, today }) {
         renkHex: reading.aura_rengi,
         renkAd: reading.aura_adi,
         motto: reading.motto,
+        auraNotu: reading.aura_notu,
         sign: profile.sign,
         tarihStr: tarih,
       });
@@ -49,9 +50,15 @@ export function AuraCard({ reading, profile, today }) {
         }} />
       </div>
       <p className="text-center text-sm kz-dim mb-1">{TR.auraColor}</p>
-      <p className="text-center text-lg font-semibold mb-4" style={{ color: reading.aura_rengi }}>
+      <p className="text-center text-lg font-semibold mb-2" style={{ color: reading.aura_rengi }}>
         {reading.aura_adi}
       </p>
+      {reading.aura_notu && (
+        <p className="text-center text-sm px-3 mb-5"
+          style={{ lineHeight: 1.65, opacity: 0.88 }}>
+          {reading.aura_notu}
+        </p>
+      )}
       <p className="text-center text-xl font-light px-2 mb-6" style={{ lineHeight: 1.5 }}>
         “{reading.motto}”
       </p>

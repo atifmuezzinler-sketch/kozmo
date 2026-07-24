@@ -349,3 +349,58 @@ export const GLOSS = {
     "Balzamik Hilal": "Yeni Ay'dan hemen önceki ince hilal; dinlenme ve kapanış evresi.",
   },
 };
+
+/* AURA NOTU — rengin altındaki tek satır (yerel havuz).
+   Ay evresine göre anahtarlanır: gökyüzü olayı + bugüne somut karşılık.
+   API çalıştığında bu havuz kullanılmaz; çevrimdışı/ilk gün güvencesidir.
+   Band: 9-16 kelime (ampirik kalibre, anayasa 4.6). */
+export const AURA_NOT = {
+  "Yeni Ay": [
+    "Yeni Ay başlangıç kapısı aralıyor; küçük bir işi başlatmak yeterli.",
+    "Gökyüzü sıfırdan sayıyor; listenin en tepesine tek bir madde yaz.",
+    "Yeni Ay karanlıkken tohum atılır; kimseye duyurmadan başla.",
+    "Ay yeniden doğuyor; ertelediğin şeyin ilk adımını at.",
+  ],
+  "Büyüyen Hilal": [
+    "Ay büyümeye başladı; başlattığın işi bir tık ileri taşı.",
+    "İnce hilal sabır ister; acele etme, düzenli git.",
+    "Gökyüzü besleme evresinde; niyetini eyleme çeviren küçük bir adım at.",
+    "Ay ışığını topluyor; sen de dağınık bir işi toparla.",
+  ],
+  "İlk Dördün": [
+    "İlk dördün karar evresi; iki seçenekten birini seç, ikisini birden taşıma.",
+    "Ay yarıda duruyor; sen de yarım bıraktığın işe geri dön.",
+    "Gökyüzü direnç veriyor; zorlanmak yanlış yolda olduğun anlamına gelmez.",
+    "Dördün gerilim taşır; tartışmayı değil çözümü büyüt.",
+  ],
+  "Şişkin Ay": [
+    "Ay dolmaya yakın; işini bitirmeden önce son bir kez gözden geçir.",
+    "Gökyüzü ince ayar evresinde; büyük hamle değil küçük düzeltme zamanı.",
+    "Işık artıyor; eksik kalan detayı tamamlamak için uygun bir gün.",
+    "Ay şişkin evrede; az kaldı, aceleyle bozma.",
+  ],
+  "Dolunay": [
+    "Dolunay her şeyi görünür kılıyor; ertelediğin cümle yerini bulur.",
+    "Ay tam dolu; sonuçlar ortaya çıkıyor, gürültüye kapılma.",
+    "Gökyüzü sahneyi aydınlatıyor; duygular büyük görünür, olduğu kadarını al.",
+    "Dolunay hem taşırır hem gösterir; tepkini bir gece beklet.",
+  ],
+  "Küçülen Şişkin": [
+    "Ay geri çekilmeye başladı; öğrendiğin bir şeyi birine anlat.",
+    "Gökyüzü paylaşma evresinde; teşekkürü ertelemek için sebep yok.",
+    "Işık azalıyor ama hâlâ bol; elindekini değerlendirmek için geç değil.",
+    "Ay eksiliyor; biriktirdiğini paylaşmak yükünü hafifletir.",
+  ],
+  "Son Dördün": [
+    "Son dördün bırakma evresi; taşımayı bıraktığın şey seni hafifletir.",
+    "Ay yarıya indi; listenden bir maddeyi silmek iyi gelir.",
+    "Gökyüzü sadeleşiyor; fazlalığı elemek için uygun bir gün.",
+    "Dördün kapanış ister; bitmemiş bir konuyu bitir.",
+  ],
+  "Balzamik Hilal": [
+    "Ay kapanış evresinde, acele etmiyor; sen de yeni bir şeye başlama.",
+    "Gökyüzü dinleniyor; bir şey üretmek yerine toparlan.",
+    "İnce hilal geriye bakar; biteni kapat, yenisini yarına bırak.",
+    "Ay son ışığını veriyor; sakinlikle geçen gün kayıp değil.",
+  ],
+};

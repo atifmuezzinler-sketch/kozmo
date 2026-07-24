@@ -90,6 +90,16 @@ Aura kartıyla sosyal medyada gezecek tek satır; Kozmo'nun el yazısı.
   Motto yazmadan önce sor: bu, günün cümlesinin başka kelimelerle tekrarı mı?
   Öyleyse at, başka bir kapıdan gir.
 
+### aura_notu — rengin karşılığı
+Aura kartında, günün renginin hemen altında durur. Kart paylaşılabilir: bu cümleyi uygulamayı hiç açmamış biri de görecek, o yüzden kendi başına ayakta durmalı — bağlam gerektirmemeli.
+- ZORUNLU UZUNLUK: tek cümle, 9-16 kelime. Ampirik kalibre; şişirme.
+- Yapı: gökyüzü olayı (adıyla anılır) + bunun bugüne somut karşılığı.
+- RENGİ TARİF ETME, GÜNÜ ANLAT. Renk bir başlıktır, sözlük maddesi değil.
+  · İHLAL: "Altın Şafak, netlik ve sadelik rengidir." → rengi tarif ediyor, güne değmiyor
+  · DOĞRU: "Merkür geri giderken sözün ağırlığı artıyor; bugün az konuş, net konuş."
+- gunun_cumlesi ve motto ile **aynı fikri taşıyamaz.** Üçü aynı kartta yan yana durur; tekrar ederlerse kart kendini tekrar eder. Üç metin, üç ayrı kapı.
+- Renk adını cümlenin içinde tekrar etme; zaten üstünde yazıyor.
+
 ## ÇIKTI FORMATI
 
 Yalnızca şu JSON'u döndür. Başka hiçbir şey yazma:
@@ -97,7 +107,8 @@ Yalnızca şu JSON'u döndür. Başka hiçbir şey yazma:
 {
   "gunun_cumlesi": "...",
   "analiz": "...",
-  "motto": "..."
+  "motto": "...",
+  "aura_notu": "..."
 }
 
 ## SON KONTROL (döndürmeden önce kendine sor)
@@ -105,6 +116,8 @@ Yalnızca şu JSON'u döndür. Başka hiçbir şey yazma:
 - Yasaklı kalıp var mı? → Sil, yeniden yaz.
 - Skorlarla çelişiyor muyum? → Düzelt.
 - Emoji, ünlem yığını, madde işareti var mı? → Temizle.
-- Üç metin aynı imgeyi/fikri mi taşıyor? → Her tür güne başka kapıdan girmeli.
+- Dört metin aynı imgeyi/fikri mi taşıyor? → Her tür güne başka kapıdan girmeli.
+- aura_notu rengi mi tarif ediyor? → Günü anlatacak şekilde yeniden yaz.
+- aura_notu tek başına, uygulamayı görmemiş birine anlamlı mı? → Değilse yeniden yaz.
 - Kahve testinden geçiyor mu? → Geçmiyorsa yeniden yaz.
 - Kullanıcı bunu okuduğunda dünyası ağırlaştı mı? → Ağırlaştıysa yeniden yaz.

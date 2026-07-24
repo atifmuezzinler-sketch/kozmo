@@ -2,7 +2,7 @@ import {
   sunLon, moonLon, planetLon, isRetro, moonPhase, signOf, natalSunLon, EL_AD,
 } from "./astro.js";
 import {
-  AURA_COLORS, MOTTOS, GUNUN_CUMLESI, MOON_SENT, CAT_HIGH, CAT_RISKY,
+  AURA_COLORS, AURA_NOT, MOTTOS, GUNUN_CUMLESI, MOON_SENT, CAT_HIGH, CAT_RISKY,
 } from "../content/metinler.js";
 
 export const KATEGORILER = ["aile", "is", "ask", "para"];
@@ -72,6 +72,9 @@ export function mockEngine(profile, date) {
   const rot = (salt, len, step) =>
     (((hashStr(profile.birthDate + salt) + gunNo * step) % len) + len) % len;
   const renk = AURA_COLORS[rot("aura", AURA_COLORS.length, 7)];
+  /* Aura notu: rengi güne bağlayan tek satır. Ay evresine göre seçilir. */
+  const notHavuz = AURA_NOT[phase.ad] || AURA_NOT["Yeni Ay"];
+  const auraNotu = notHavuz[rot("auranot", notHavuz.length, 3)];
   const motto = MOTTOS[rot("motto", MOTTOS.length, 7)];
   const havuz = GUNUN_CUMLESI[natal.el];
   /* adım, havuz boyuyla aralarında asal olacak şekilde seçilir → tam döngü:
@@ -103,6 +106,7 @@ export function mockEngine(profile, date) {
     skorlar,
     aura_rengi: renk.hex,
     aura_adi: renk.ad,
+    aura_notu: auraNotu,
     motto,
     gunun_cumlesi: gununCumlesi,
     analiz,
