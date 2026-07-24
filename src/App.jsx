@@ -59,7 +59,8 @@ export default function App() {
         <div className="max-w-2xl mx-auto px-4 py-8 relative" style={{ zIndex: 1 }}>
           <div className="flex items-center justify-between mb-5 gap-2 flex-wrap">
             <div className="flex items-center gap-2">
-              <Compass size={18} className="kz-gold" />
+              <img src="/icons/icon-192.png" alt="Kozmo" width="26" height="26"
+                style={{ borderRadius: 7, display: "block" }} />
               <span className="font-extrabold tracking-widest">KOZMO</span>
             </div>
             <div className="flex items-center gap-2 flex-wrap justify-end">
