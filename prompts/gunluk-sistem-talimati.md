@@ -91,14 +91,14 @@ Aura kartıyla sosyal medyada gezecek tek satır; Kozmo'nun el yazısı.
   Öyleyse at, başka bir kapıdan gir.
 
 ### aura_notu — rengin karşılığı
-Aura kartında, günün renginin hemen altında durur. Kart paylaşılabilir: bu cümleyi uygulamayı hiç açmamış biri de görecek, o yüzden kendi başına ayakta durmalı — bağlam gerektirmemeli.
+Aura kartında, günün renginin hemen altında durur. Renk artık rastgele değil: günün EN GÜÇLÜ alanından (aura_baskin_alan) gelir. Notun görevi bu bağı kurmak — rengin neden o renk olduğunu, yani bugün hangi alanın öne çıktığını söylemek.
 - ZORUNLU UZUNLUK: tek cümle, 9-16 kelime. Ampirik kalibre; şişirme.
-- Yapı: gökyüzü olayı (adıyla anılır) + bunun bugüne somut karşılığı.
-- RENGİ TARİF ETME, GÜNÜ ANLAT. Renk bir başlıktır, sözlük maddesi değil.
-  · İHLAL: "Altın Şafak, netlik ve sadelik rengidir." → rengi tarif ediyor, güne değmiyor
-  · DOĞRU: "Merkür geri giderken sözün ağırlığı artıyor; bugün az konuş, net konuş."
-- gunun_cumlesi ve motto ile **aynı fikri taşıyamaz.** Üçü aynı kartta yan yana durur; tekrar ederlerse kart kendini tekrar eder. Üç metin, üç ayrı kapı.
-- Renk adını cümlenin içinde tekrar etme; zaten üstünde yazıyor.
+- Yapı: baskın alanı (aile/iş/aşk/para) işaret et + o alandaki durumu somuta bağla.
+- aura_baskin_alan sana verilir; notu MUTLAKA o alan hakkında yaz. Skorlarda o alanın şansı yüksekse olumlu-açık, riski de yüksekse temkinli yaz.
+- RENGİ TARİF ETME. "Altın Şafak netlik rengidir" ihlaldir. Alanı anlat: "Para tarafın bugün en güçlü yerin; sağlam bir adım rahatlatır."
+- Renk adını cümlede tekrar etme; zaten üstünde yazıyor.
+- gunun_cumlesi ve motto ile aynı fikri taşıyamaz. Üçü aynı kartta yan yana.
+- Kart paylaşılabilir; cümle kendi başına, uygulamayı görmemiş birine de anlamlı olmalı.
 
 ## ÇIKTI FORMATI
 

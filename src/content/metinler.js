@@ -4,6 +4,31 @@
    klişe yasağı, hafif oyunbaz Kozmo sesi.
    ============================================================ */
 
+/* AURA RENKLERİ — günün baskın alanına + şans/risk dengesine göre seçilir.
+   Her kategori bir renk ailesi taşır: baskın alan hangisiyse renk oradan gelir.
+   İki ton: "parlak" (şans ris<ten belirgin yüksek) ve "derin" (risk yakın/yüksek).
+   Böylece renk hem kişisel (senin skorların) hem anlamlı (bugün ne öne çıkıyor)
+   hem de dekoratif değil — okunabilir bir işaret. */
+export const AURA_PALET = {
+  ask: {
+    parlak: { ad: "Gül Kuvarsı", hex: "#e08aab" },
+    derin: { ad: "Yakut Kıvılcımı", hex: "#d65a80" },
+  },
+  para: {
+    parlak: { ad: "Altın Şafak", hex: "#d4af37" },
+    derin: { ad: "Amber Közü", hex: "#e2884a" },
+  },
+  is: {
+    parlak: { ad: "Buz Aydınlığı", hex: "#8fc6ec" },
+    derin: { ad: "Gece Safiri", hex: "#3d6bd6" },
+  },
+  aile: {
+    parlak: { ad: "Nane Nefesi", hex: "#4fc4a8" },
+    derin: { ad: "Turkuaz Derinlik", hex: "#35b3b3" },
+  },
+};
+
+/* Geriye dönük uyum: eski AURA_COLORS'a bağlı bir yer kalırsa çalışsın. */
 export const AURA_COLORS = [
   { ad: "Gece Safiri", hex: "#3d6bd6" },
   { ad: "Altın Şafak", hex: "#d4af37" },
@@ -350,57 +375,61 @@ export const GLOSS = {
   },
 };
 
-/* AURA NOTU — rengin altındaki tek satır (yerel havuz).
-   Ay evresine göre anahtarlanır: gökyüzü olayı + bugüne somut karşılık.
-   API çalıştığında bu havuz kullanılmaz; çevrimdışı/ilk gün güvencesidir.
-   Band: 9-16 kelime (ampirik kalibre, anayasa 4.6). */
-export const AURA_NOT = {
-  "Yeni Ay": [
-    "Yeni Ay başlangıç kapısı aralıyor; küçük bir işi başlatmak yeterli.",
-    "Gökyüzü sıfırdan sayıyor; listenin en tepesine tek bir madde yaz.",
-    "Yeni Ay karanlıkken tohum atılır; kimseye duyurmadan başla.",
-    "Ay yeniden doğuyor; ertelediğin şeyin ilk adımını at.",
-  ],
-  "Büyüyen Hilal": [
-    "Ay büyümeye başladı; başlattığın işi bir tık ileri taşı.",
-    "İnce hilal sabır ister; acele etme, düzenli git.",
-    "Gökyüzü besleme evresinde; niyetini eyleme çeviren küçük bir adım at.",
-    "Ay ışığını topluyor; sen de dağınık bir işi toparla.",
-  ],
-  "İlk Dördün": [
-    "İlk dördün karar evresi; iki seçenekten birini seç, ikisini birden taşıma.",
-    "Ay yarıda duruyor; sen de yarım bıraktığın işe geri dön.",
-    "Gökyüzü direnç veriyor; zorlanmak yanlış yolda olduğun anlamına gelmez.",
-    "Dördün gerilim taşır; tartışmayı değil çözümü büyüt.",
-  ],
-  "Şişkin Ay": [
-    "Ay dolmaya yakın; işini bitirmeden önce son bir kez gözden geçir.",
-    "Gökyüzü ince ayar evresinde; büyük hamle değil küçük düzeltme zamanı.",
-    "Işık artıyor; eksik kalan detayı tamamlamak için uygun bir gün.",
-    "Ay şişkin evrede; az kaldı, aceleyle bozma.",
-  ],
-  "Dolunay": [
-    "Dolunay her şeyi görünür kılıyor; ertelediğin cümle yerini bulur.",
-    "Ay tam dolu; sonuçlar ortaya çıkıyor, gürültüye kapılma.",
-    "Gökyüzü sahneyi aydınlatıyor; duygular büyük görünür, olduğu kadarını al.",
-    "Dolunay hem taşırır hem gösterir; tepkini bir gece beklet.",
-  ],
-  "Küçülen Şişkin": [
-    "Ay geri çekilmeye başladı; öğrendiğin bir şeyi birine anlat.",
-    "Gökyüzü paylaşma evresinde; teşekkürü ertelemek için sebep yok.",
-    "Işık azalıyor ama hâlâ bol; elindekini değerlendirmek için geç değil.",
-    "Ay eksiliyor; biriktirdiğini paylaşmak yükünü hafifletir.",
-  ],
-  "Son Dördün": [
-    "Son dördün bırakma evresi; taşımayı bıraktığın şey seni hafifletir.",
-    "Ay yarıya indi; listenden bir maddeyi silmek iyi gelir.",
-    "Gökyüzü sadeleşiyor; fazlalığı elemek için uygun bir gün.",
-    "Dördün kapanış ister; bitmemiş bir konuyu bitir.",
-  ],
-  "Balzamik Hilal": [
-    "Ay kapanış evresinde, acele etmiyor; sen de yeni bir şeye başlama.",
-    "Gökyüzü dinleniyor; bir şey üretmek yerine toparlan.",
-    "İnce hilal geriye bakar; biteni kapat, yenisini yarına bırak.",
-    "Ay son ışığını veriyor; sakinlikle geçen gün kayıp değil.",
-  ],
+export const AURA_ALAN_NOT = {
+  ask: {
+    parlak: [
+      "Aşk tarafın en parlak yerin; yakınlaşmak isteyen adımı atsın.",
+      "en güçlü alanın gönül işleri; içten bir söz fazlasıyla karşılık bulur.",
+      "Kalp tarafında zemin açık; ertelediğin cümleyi kurmak için doğru gün.",
+      "Aşk seni öne çıkarıyor; sıcaklığını göstermekten çekinme.",
+    ],
+    derin: [
+      "Aşk günün baş konusu ama temkinli; söylemeden önce bir düşün.",
+      "Gönül tarafı öne çıkıyor, yalnız alınganlık kolay; yumuşak konuş.",
+      "Kalp işleri gündemde ama pürüzlü; niyetini açık tut, ima etme.",
+      "Aşk baskın alanın, riski de var; karşındakine bir gün kredisi aç.",
+    ],
+  },
+  para: {
+    parlak: [
+      "Para tarafın en güçlü yerin; küçük ama sağlam bir adım rahatlatır.",
+      "öne çıkan alanın bütçe; net görüyorsun, planlamak için ideal.",
+      "Maddi sezgin keskin; ertelediğin bir hesabı gözden geçir.",
+      "Para tarafında kontrol sende; sağlam bir düzenleme için doğru gün.",
+    ],
+    derin: [
+      "Para günün baş konusu ama temkinli; büyük harcamayı bir gün beklet.",
+      "Bütçe öne çıkıyor, riski de var; 'kaçmaz fırsat' diyeni bırak kaçsın.",
+      "Maddi konular gündemde ama pürüzlü; acele karar yerine sabırlı bak.",
+      "Para baskın alanın, dikkat ister; büyük kararı yarına sakla.",
+    ],
+  },
+  is: {
+    parlak: [
+      "İş tarafın en parlak yerin; fikrini masaya koymaktan çekinme.",
+      "öne çıkan alanın kariyer; başladığın iş hızlı ilerleyebilir.",
+      "Mesleki sezgin açık; bir fırsatı fark edersen üstüne git.",
+      "İş cephende zemin uygun; net bir talebi iletmek yarına kalmasın.",
+    ],
+    derin: [
+      "İş günün baş konusu ama temkinli; imza atmadan iki kez oku.",
+      "Kariyer öne çıkıyor, riski de var; acele karar pahalıya patlayabilir.",
+      "Mesleki konular gündemde ama pürüzlü; detayı bir kez daha gözden geçir.",
+      "İş baskın alanın, dikkat ister; tartışmaya değmez konulara enerji harcama.",
+    ],
+  },
+  aile: {
+    parlak: [
+      "Aile tarafın en güçlü yerin; küçük bir jest büyük karşılık bulur.",
+      "öne çıkan alanın ev; uzaktakine bir haber iyi oturur.",
+      "Aile bağların sana güç veriyor; destek istemekten çekinme.",
+      "Ev tarafında sıcak bir denge var; paylaşılan basit bir an günü güzelleştirir.",
+    ],
+    derin: [
+      "Aile günün baş konusu ama temkinli; espri dozunu bir tık düşür.",
+      "Ev öne çıkıyor, riski de var; eski bir konuyu sen alevlendirme.",
+      "Aile içi gündemde ama pürüzlü; net konuş, varsayımı bırak.",
+      "Aile baskın alanın, dikkat ister; büyük konuyu daha sakin bir güne sakla.",
+    ],
+  },
 };

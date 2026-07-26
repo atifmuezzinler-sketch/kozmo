@@ -97,6 +97,7 @@ export function girdiHazirla(profil, tarih) {
     },
     skorlar: yerel.skorlar,
     aura_rengi_adi: yerel.aura_adi, // kartın başlığı — nota bağlam verir
+    aura_baskin_alan: yerel.aura_baskin_alan, // renk hangi alandan geldi; not bunu anlatmalı
   };
 }
 

@@ -2,7 +2,7 @@ import {
   sunLon, moonLon, planetLon, isRetro, moonPhase, signOf, natalSunLon, EL_AD,
 } from "./astro.js";
 import {
-  AURA_COLORS, AURA_NOT, MOTTOS, GUNUN_CUMLESI, MOON_SENT, CAT_HIGH, CAT_RISKY,
+  AURA_COLORS, AURA_PALET, AURA_ALAN_NOT, MOTTOS, GUNUN_CUMLESI, MOON_SENT, CAT_HIGH, CAT_RISKY,
 } from "../content/metinler.js";
 
 export const KATEGORILER = ["aile", "is", "ask", "para"];
@@ -71,9 +71,16 @@ export function mockEngine(profile, date) {
   const gunNo = Math.floor(date.getTime() / 86400000);
   const rot = (salt, len, step) =>
     (((hashStr(profile.birthDate + salt) + gunNo * step) % len) + len) % len;
-  const renk = AURA_COLORS[rot("aura", AURA_COLORS.length, 7)];
-  /* Aura notu: rengi güne bağlayan tek satır. Ay evresine göre seçilir. */
-  const notHavuz = AURA_NOT[phase.ad] || AURA_NOT["Yeni Ay"];
+  /* AURA RENGİ: günün baskın alanından (en yüksek şans) gelir.
+     Ton, o alandaki şans-risk farkına göre belirlenir:
+     fark belirginse "parlak" (yol açık), risk yakınsa "derin" (dikkat ister). */
+  const bAlan = AURA_PALET[best] ? best : "para"; // güvenlik
+  const bSans = skorlar[bAlan].sans, bRisk = skorlar[bAlan].risk;
+  const ton = (bSans - bRisk) >= 20 ? "parlak" : "derin";
+  const renk = AURA_PALET[bAlan][ton];
+  /* Aura notu: renkle AYNI alan ve tondan gelir — böylece renk ve not
+     birbirini doğrular. Renk baskın alanı gösterir, not onu somuta bağlar. */
+  const notHavuz = AURA_ALAN_NOT[bAlan][ton];
   const auraNotu = notHavuz[rot("auranot", notHavuz.length, 3)];
   const motto = MOTTOS[rot("motto", MOTTOS.length, 7)];
   const havuz = GUNUN_CUMLESI[natal.el];
@@ -107,6 +114,7 @@ export function mockEngine(profile, date) {
     aura_rengi: renk.hex,
     aura_adi: renk.ad,
     aura_notu: auraNotu,
+    aura_baskin_alan: bAlan,
     motto,
     gunun_cumlesi: gununCumlesi,
     analiz,
