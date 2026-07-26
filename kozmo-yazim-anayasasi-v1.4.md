@@ -1,9 +1,10 @@
-# KOZMO YAZIM ANAYASASI — v1.3
+# KOZMO YAZIM ANAYASASI — v1.4
 
 **Statü:** Onaylı final. Beş bölümün tamamı Atıf Müezzinler tarafından madde madde onaylanmıştır (13 Temmuz 2026).
 **v1.1 değişikliği (15 Temmuz 2026):** 4.2'deki analiz uzunluk bandı 60-90 kelimeden **45-70 kelimeye** çekildi. Gerekçe: sistem talimatı provasında band ampirik olarak test edildi; yayındaki mevcut analiz metinleri 40-50 kelime (ort. 45), prova çıktıları 52-60 kelime bandına düştü. 60-90 bandı İngilizce'ye göre kalibre edilmiş olup Türkçe'nin sondan eklemeli yapısıyla uyumsuzdu; banda ulaşmak metni yapay şişirmeyi ya da paragraf duvarı kurmayı gerektiriyordu — ikisi de anayasanın kendi yasakları. Band, ürünün gerçeğine göre yeniden kalibre edilmiştir.
 **v1.2 değişikliği (15 Temmuz 2026):** Aynı ampirik yöntem 4.4 ve 4.5'e uygulandı; iki band daha hatalı bulundu ve kalibre edildi. **4.5 Synastry:** 40-70 → **22-50 kelime** (yayındaki metinler 22-25 kelime, ort. 24; üst sınır 4 cümlelik zengin okumaya alan bırakır). **4.4 Check-in notu:** 25-40 → **12-32 kelime** (yayındaki notlar 10-24 kelime, ort. 17; üst sınır notun "kısa el teması" karakterini korur, uzarsa vaaza döner). Kalibrasyon ölçütü çift taraflıdır: hem yayındaki gerçek uzunluklar hem de anayasanın belirttiği cümle sayısı × Türkçe ortalama cümle uzunluğu (11-13 kelime). Not: Anayasanın ilk sürümündeki üç uzunluk bandı da ampirik doğrulama yapılmadan yazılmıştı; bu, sistematik bir kalibrasyon hatasıydı ve düzeltilmiştir.
 **v1.3 değişikliği (22 Temmuz 2026):** Yeni içerik türü eklendi — **4.7 Aura Notu.** Gerekçe: Aura kartı, rengi ("Altın Şafak") ve mottoyu gösteriyordu ama rengin o günle ne ilgisi olduğu hiçbir yerde söylenmiyordu; kullanıcı için anlamı boşta duruyordu. Kart artık rengin altında, günü somuta bağlayan tek satır taşır. Band ampirik ölçümle belirlendi: API modu **9-16 kelime** (kişisel veriyle yazıldığından taban yüksek), yerel havuz **6-16 kelime** (32 metnin doğal dağılımı 6-11'de yoğunlaştı; kısa olanlar vurucu olduğu için uzatılmadı — band metne uyduruldu, metin banda değil).
+**v1.4 değişikliği (26 Temmuz 2026):** Aura rengi artık dekoratif değil — günün baskın alanına (en yüksek şanslı kategori) ve o alandaki şans-risk dengesine bağlandı. Renk paleti dört alan × iki ton olarak yeniden düzenlendi (aşk→gül/yakut, para→altın/amber, iş→buz/safir, aile→nane/turkuaz). Aura notu da artık evre değil, rengin geldiği alanı anlatır: renk + not + skorlar üçü birbirini doğrular. Gerekçe: renk adı ("Altın Şafak") kullanıcı için anlamsızdı; artık "bugün en güçlü alanın ne" sorusunun görsel yanıtı.
 **İşlev:** Bu belge, Kozmo'nun tüm metin üretiminin bağlayıcı çerçevesidir. Faz 2'de Claude API sistem talimatının çekirdeği olarak kullanılacak; insan eliyle yazılan her içerik de aynı süzgeçten geçer.
 **Öncelik hiyerarşisi:** Bölüm 5 (etik) > veri tutarlılığı > tür kuralları (Bölüm 4) > ses ve üslup (Bölüm 2-3) > güzellik.
 
@@ -184,6 +185,6 @@ Bölüm 3'teki çift katman burada da geçerlidir: bu bölümün yasakları sist
 
 ## YÜRÜRLÜK
 
-Bu anayasa v1.3 olarak yürürlüktedir. Değişiklik yetkisi Atıf Müezzinler'dedir; her değişiklik sürüm numarasıyla kayda geçer. Faz 2'de Claude API sistem talimatı bu belgeden türetilir; mevcut yerel içerik havuzu (metinler.js) yeni eklemelerde bu belgeye tabidir.
+Bu anayasa v1.4 olarak yürürlüktedir. Değişiklik yetkisi Atıf Müezzinler'dedir; her değişiklik sürüm numarasıyla kayda geçer. Faz 2'de Claude API sistem talimatı bu belgeden türetilir; mevcut yerel içerik havuzu (metinler.js) yeni eklemelerde bu belgeye tabidir.
 
 *Kozmo — Kişisel gökyüzü rehberin. Eğlence ve ilham amaçlıdır.*
