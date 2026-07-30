@@ -6,6 +6,7 @@ import { mockEngine, mockSynastry, skorNasil, KATEGORILER } from "../lib/engine"
 import { gunlukOkuma, arkaPlandaHazirla, uyumOkumasi } from "../lib/kozmo-api";
 import { ScoreBar, DateField } from "./Common";
 import { AuraCard, CheckIn } from "./AuraCheckIn";
+import { BildirimOneri } from "./BildirimOneri";
 import { uyumKartiUret } from "../lib/aura-card";
 
 const CAT_ICON = { aile: Home, is: Briefcase, ask: Heart, para: Coins };
@@ -24,6 +25,19 @@ export function PusulaView({ profile, today, firstReading, onUyeOl }) {
   useEffect(() => {
     arkaPlandaHazirla(profile, today);
   }, [profile, today]);
+
+  /* Bildirim: kullanıcı bugünkü okumaya BUGÜN ilk kez bakıyorsa, bunu işaretle.
+     Böylece bir daha (ör. arka plandan dönünce) gereksiz hatırlatma çıkmaz.
+     Not: Kullanıcı zaten uygulamada olduğu için burada bildirim GÖSTERMEYİZ;
+     yalnızca "bugün görüldü" kaydını tutarız. Hatırlatma, uygulama kapalıyken
+     tetiklenmeli — o da Seçenek 2'nin (sunucu push) işi. Bu kayıt, o güne
+     hazırlık ve çift-hatırlatma önleme içindir. */
+  const bugunAnahtar = useMemo(() => today.toISOString().slice(0, 10), [today]);
+  useEffect(() => {
+    try {
+      localStorage.setItem("kozmo_okuma_goruldu", bugunAnahtar);
+    } catch { /* geç */ }
+  }, [bugunAnahtar]);
   const weekly = useMemo(() => {
     const days = Array.from({ length: 7 }, (_, i) => {
       const d = new Date(today.getTime() + i * 86400000);
@@ -173,6 +187,7 @@ export function PusulaView({ profile, today, firstReading, onUyeOl }) {
         <p className="text-sm" style={{ lineHeight: 1.85 }}>{daily.analiz}</p>
       </div>
 
+      <BildirimOneri />
       <AuraCard reading={daily} profile={profile} today={today} />
       <CheckIn today={today} />
     </div>

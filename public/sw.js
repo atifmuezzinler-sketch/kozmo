@@ -1,13 +1,12 @@
 /* Kozmo Service Worker
-   Görev (bu aşama): uygulamayı çevrimdışı açılabilir kılmak.
-   İleride: push bildirimleri (günlük rapor, aura kartı, haftalık 7 gün).
+   İki görev:
+   1) Çevrimdışı açılış (network-first, cache fallback)
+   2) Bildirim gösterme — uygulamadan gelen isteği kilit ekranına taşır
 
-   Strateji: "network-first, cache fallback" — önce ağdan taze içerik dener,
-   ağ yoksa önbellekten açar. Böylece kullanıcı hem güncel kalır hem çevrimdışı
-   çalışır. Vite her derlemede dosya adlarını değiştirdiği için (hash'li),
-   eski önbellek sürüm değişince temizlenir. */
+   Not: Bu aşamada bildirimler CİHAZDAN tetiklenir (sunucu push değil).
+   Güvenilir zamanlama için ileride Seçenek 2 (sunucu push) gerekir. */
 
-const SURUM = "kozmo-v1";
+const SURUM = "kozmo-v2";
 const TEMEL = ["/", "/index.html", "/manifest.webmanifest"];
 
 self.addEventListener("install", (e) => {
@@ -26,30 +25,46 @@ self.addEventListener("activate", (e) => {
 
 self.addEventListener("fetch", (e) => {
   const istek = e.request;
-  // Yalnızca GET ve aynı köken; API çağrıları (Supabase) önbelleğe girmez
   if (istek.method !== "GET") return;
   const url = new URL(istek.url);
-  if (url.origin !== self.location.origin) return; // dış istekler (API, fontlar) doğrudan geçsin
+  if (url.origin !== self.location.origin) return; // dış istekler (API) doğrudan geçsin
 
   e.respondWith(
     fetch(istek)
       .then((yanit) => {
-        // Başarılı yanıtı önbelleğe al (gelecekteki çevrimdışı açılış için)
         const kopya = yanit.clone();
         caches.open(SURUM).then((c) => c.put(istek, kopya)).catch(() => {});
         return yanit;
       })
-      .catch(() =>
-        // Ağ yoksa önbellekten ver; o da yoksa ana sayfaya düş
-        caches.match(istek).then((v) => v || caches.match("/")),
-      ),
+      .catch(() => caches.match(istek).then((v) => v || caches.match("/"))),
   );
 });
 
-/* ---------- İLERİDE: PUSH BİLDİRİMLERİ ----------
-   Bir sonraki adımda buraya 'push' ve 'notificationclick' dinleyicileri eklenecek:
-   - Günlük rapor bildirimi
-   - Aura kartı bildirimi (tercihe göre)
-   - Haftalık 7 gün (pazartesi) bildirimi
-   Bunlar için ayrıca bir push aboneliği (VAPID anahtarları) ve
-   Supabase tarafında zamanlanmış gönderim gerekecek. */
+/* Uygulamadan gelen "bildirim göster" mesajı.
+   Uygulama, kullanıcının izniyle ve doğru zamanda bu mesajı yollar;
+   service worker da bunu kilit ekranına taşır. */
+self.addEventListener("message", (e) => {
+  if (e.data?.tur === "bildirim-goster") {
+    const { baslik, govde } = e.data;
+    self.registration.showNotification(baslik, {
+      body: govde,
+      icon: "/icons/icon-192.png",
+      badge: "/icons/icon-192.png",
+      tag: "kozmo-gunluk", // aynı etiket: eski bildirim yenisiyle değişir, yığılmaz
+      renotify: false,
+    });
+  }
+});
+
+/* Bildirime dokununca uygulamayı aç (açıksa öne getir) */
+self.addEventListener("notificationclick", (e) => {
+  e.notification.close();
+  e.waitUntil(
+    self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((pencereler) => {
+      for (const p of pencereler) {
+        if (p.url.includes(self.location.origin) && "focus" in p) return p.focus();
+      }
+      return self.clients.openWindow("/");
+    }),
+  );
+});
